@@ -1,12 +1,13 @@
-# CIGO STUDIO Paint 5.0 Complete
+# CIGO STUDIO Paint 5.1 — Stability Fix
 
-Ideato, progettato e creato dal Prof. Marco Cigolotti. Sviluppato con il supporto dell’intelligenza artificiale. © 2026.
+Correzioni su codice originale 5.0 fornito dall’utente.
 
-## Pubblicazione GitHub Pages
-Carica **tutti** i file e le cartelle (`index.html`, `css/`, `js/`) nella radice del repository `cigo-studio-paint`. Attiva Settings → Pages → Deploy from a branch → main → /(root).
+- Pennarello e pennelli: tratto composto su tela temporanea e applicato una sola volta per evitare sovrapposizioni opache e impronte circolari.
+- Forme: anteprima con linea continua e conferma definitiva al rilascio del puntatore.
+- Gestione rilascio puntatore anche fuori dalla tela e perdita focus.
+- Testo e salvataggio .cigopaint: invariati.
+- Modalità Studio/Scuola e crediti: conservati.
 
-## Utilizzo
-Pittura, grafica raster, livelli, filtri, selezione rettangolare, modalità Scuola. Salva il progetto in `.cigopaint` e riaprilo con «Apri progetto». PNG e JPEG sono esportazioni appiattite. I file restano sul dispositivo.
+Pubblicazione: estrarre e caricare index.html, css/ e js/ nella radice del repository GitHub Pages.
 
-## Limiti
-L'app è un editor raster didattico/creativo, non Photoshop: niente maschere complesse, vettori modificabili o salvataggio cloud. Il browser può limitare memoria e dimensioni. Conserva copie dei progetti. Il file `index.html` usa moduli JavaScript: eseguilo tramite GitHub Pages o un server HTTP locale, non tramite `file://`.
+Test consigliato: rettangolo, linea, pennarello, testo, cambio strumento, salvataggio e riapertura .cigopaint.
