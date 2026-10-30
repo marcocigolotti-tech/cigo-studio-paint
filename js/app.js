@@ -1,6 +1,6 @@
 
 import {strokeSegment} from './brushes.js?v=601';
-import {pigmentStroke} from './pigment.js?v=601';
+import {pigmentStroke} from './pigment.js?v=602';
 import {validateProject} from './project.js?v=601';
 (()=>{'use strict';
 const $=id=>document.getElementById(id), stage=$('stage'),overlay=$('overlay'),ov=overlay.getContext('2d'),work=$('work');

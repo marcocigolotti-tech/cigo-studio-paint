@@ -28,11 +28,14 @@ export function pigmentStroke(ctx,a,b,{kind,size,strength,softness,color,selecti
    const d=Math.hypot(px+.5-x,py+.5-y)/radius;
    if(d>=1)continue;
    const edge=softness*(1-d)+(1-softness)*(d<.82?1:(1-d)/.18);
-   const amt=clamp(strength*edge*.55,0,.8),i=(yy*w+xx)*4;
+   const amt=clamp(strength*edge*(kind==='mixer'?1.0:.55),0,.95),i=(yy*w+xx)*4;
    if(kind==='mixer'){
     // Miscelazione di pigmento scelto e colore già presente, rispettando l'alpha.
-    const oldA=data[i+3]/255,newA=oldA+(1-oldA)*amt;
-    for(let c=0;c<3;c++)data[i+c]=Math.round((data[i+c]*oldA*(1-amt)+ink[c]*amt)/Math.max(newA,1e-6));
+    // Source-over corretto: il pigmento nuovo si miscela con quello presente.
+    // Su pixel opachi, l'effetto rimane visibile; sui trasparenti dipinge.
+    const oldA=data[i+3]/255;
+    const newA=amt+oldA*(1-amt);
+    for(let c=0;c<3;c++)data[i+c]=Math.round((ink[c]*amt+data[i+c]*oldA*(1-amt))/Math.max(newA,1e-6));
     data[i+3]=Math.round(newA*255);
    }else if(pickup){
     const pA=pickup[3]/255,oldA=data[i+3]/255,newA=oldA*(1-amt)+pA*amt;
