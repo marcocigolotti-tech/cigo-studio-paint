@@ -1,20 +1,20 @@
-# CIGO STUDIO Paint 5.3 — Drawing Tools
+# CIGO STUDIO Paint 5.4 — Trasformazioni
 
-Aggiornamento incrementale basato sulla versione 5.2 funzionante.
+Ideato e progettato dal Prof. Marco Cigolotti, sviluppato con il supporto dell’intelligenza artificiale.
 
-Novità:
-- Freccia e rettangolo con angoli arrotondati.
-- Anteprima delle forme realizzata con lo stesso tracciato della forma definitiva.
-- Maiusc (Shift) durante il trascinamento per cerchi/quadrati e linee a multipli di 45°.
-- Contorni con estremità e giunzioni arrotondate.
-- Titolo e guida aggiornati a 5.3.
+## Novità
+- Selezione rettangolare: estrazione su un nuovo livello, rotazione 90° in entrambe le direzioni, ribaltamento orizzontale e verticale, ridimensionamento al 50% o 150%.
+- Trasformazioni sul solo livello attivo, con cronologia annulla/ripristina.
+- Conservati pennelli, forme, livelli, modalità Scuola e salvataggio `.cigopaint` della 5.3.
 
-Il formato .cigopaint resta invariato e compatibile con i progetti della versione 5.2.
+## Uso
+1. Scegli **Seleziona**, traccia un rettangolo sul livello che vuoi modificare.
+2. Nel pannello destro, sezione **Trasforma selezione**, applica un'operazione.
+3. Per spostare la selezione separatamente, premi **Estrai in livello**, poi usa **Sposta livello**.
+4. Salva in `.cigopaint` per conservare i livelli.
 
-## Pubblicazione
-Caricare index.html e le cartelle css/ e js/ nella radice del repository GitHub Pages.
+## GitHub Pages
+Carica `index.html`, `css/` e `js/` nella radice del repository.
 
-## Test consigliato
-Disegnare rettangolo, ellisse, freccia e linea; cambiare strumento; salvare .cigopaint; riaprire e verificare i livelli.
-
-Ideato, progettato e creato dal Prof. Marco Cigolotti — con supporto IA.
+## Limiti
+Le trasformazioni sono raster, non vettoriali; la selezione è rettangolare. Le parti ruotate possono essere tagliate ai bordi della tela.

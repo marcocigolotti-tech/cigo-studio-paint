@@ -76,6 +76,37 @@ overlay.addEventListener('pointerdown',pointerDown);overlay.addEventListener('po
 function addLayer(name='Nuovo livello'){layers.splice(active+1,0,layer(name));active++;commit('Livello aggiunto')}
 function selectionCopy(cut){if(!selection){say('Seleziona prima un’area');return}if(current().locked){say('Livello bloccato');return}let r=selection,src=current().canvas,copy=canvas(r.w,r.h);copy.getContext('2d').drawImage(src,r.x,r.y,r.w,r.h,0,0,r.w,r.h);clipboard=copy;if(cut){current().canvas.getContext('2d').clearRect(r.x,r.y,r.w,r.h);commit('Selezione tagliata')}else say('Selezione copiata')}
 function paste(){if(!clipboard){say('Niente da incollare');return}let c=canvas(),p=selection||{x:Math.round(W/2-clipboard.width/2),y:Math.round(H/2-clipboard.height/2)};c.getContext('2d').drawImage(clipboard,p.x,p.y);layers.splice(active+1,0,layer('Selezione incollata',c));active++;commit('Selezione incollata')}
+// Trasformazioni raster non distruttive per gli altri livelli: operano solo sul livello attivo.
+function transformSelection(kind){
+ if(!selection){say('Prima seleziona un’area rettangolare');return}
+ if(current().locked){say('Sblocca il livello prima di trasformare');return}
+ const r={x:Math.max(0,Math.floor(selection.x)),y:Math.max(0,Math.floor(selection.y)),w:Math.floor(selection.w),h:Math.floor(selection.h)};
+ r.w=Math.min(r.w,W-r.x);r.h=Math.min(r.h,H-r.y);
+ if(r.w<1||r.h<1)return;
+ const source=canvas(r.w,r.h),sc=source.getContext('2d');
+ sc.drawImage(current().canvas,r.x,r.y,r.w,r.h,0,0,r.w,r.h);
+ if(kind==='extract'){
+  const cut=canvas(W,H);cut.getContext('2d').drawImage(source,r.x,r.y);
+  current().canvas.getContext('2d').clearRect(r.x,r.y,r.w,r.h);
+  layers.splice(active+1,0,layer('Ritaglio trasformabile',cut));active++;
+  commit('Selezione estratta in un livello');return;
+ }
+ let tw=r.w,th=r.h;
+ if(kind==='left'||kind==='right'){tw=r.h;th=r.w}
+ if(kind==='small'){tw=Math.max(1,Math.round(r.w*.5));th=Math.max(1,Math.round(r.h*.5))}
+ if(kind==='large'){tw=Math.max(1,Math.round(r.w*1.5));th=Math.max(1,Math.round(r.h*1.5))}
+ const transformed=canvas(tw,th),tc=transformed.getContext('2d');
+ if(kind==='left'){tc.translate(0,th);tc.rotate(-Math.PI/2);tc.drawImage(source,0,0)}
+ else if(kind==='right'){tc.translate(tw,0);tc.rotate(Math.PI/2);tc.drawImage(source,0,0)}
+ else if(kind==='flipH'){tc.translate(tw,0);tc.scale(-1,1);tc.drawImage(source,0,0)}
+ else if(kind==='flipV'){tc.translate(0,th);tc.scale(1,-1);tc.drawImage(source,0,0)}
+ else tc.drawImage(source,0,0,tw,th);
+ const x=Math.round(r.x+r.w/2-tw/2),y=Math.round(r.y+r.h/2-th/2);
+ const ctx=current().canvas.getContext('2d');ctx.clearRect(r.x,r.y,r.w,r.h);ctx.drawImage(transformed,x,y);
+ selection={x:Math.max(0,x),y:Math.max(0,y),w:Math.min(tw,W-Math.max(0,x)),h:Math.min(th,H-Math.max(0,y))};
+ if(selection.w<=0||selection.h<=0)selection=null;
+ commit('Trasformazione: '+kind);
+}
 function filterLayer(){if(current().locked){say('Livello bloccato');return}let filters={grayscale:'grayscale(1)',sepia:'sepia(1)',invert:'invert(1)',brightness:'brightness(1.2)',contrast:'contrast(1.25)',saturate:'saturate(1.4)',blur:'blur(3px)'},ctx=current().canvas.getContext('2d'),temp=canvas();temp.getContext('2d').drawImage(current().canvas,0,0);ctx.save();clipping(ctx);ctx.clearRect(selection?.x||0,selection?.y||0,selection?.w||W,selection?.h||H);ctx.filter=filters[$('filter').value];ctx.drawImage(temp,0,0);ctx.restore();commit('Filtro applicato')}
 function modeChange(){let school=$('mode').value==='school';$('app').classList.toggle('school',school);$('schoolHint').classList.toggle('hide',!school);document.querySelectorAll('[data-tool]').forEach(b=>b.classList.toggle('advanced',school&&!['brush','pencil','marker','eraser','line','rect','ellipse','fill','pick','text'].includes(b.dataset.tool)));if(school&&['move','select','hand','air'].includes(tool))setTool('brush')}
 function resizeDoc(){let w=+$('width').value,h=+$('height').value;if(!Number.isInteger(w)||!Number.isInteger(h)||w<64||h<64||w>4096||h>4096){alert('Dimensioni consentite: 64–4096 pixel');return}if(w===W&&h===H)return;if(!confirm('Ridimensionare la tela? I pixel fuori dai nuovi margini verranno tagliati.'))return;layers=layers.map(l=>{let c=canvas(w,h);c.getContext('2d').drawImage(l.canvas,0,0);return{...l,canvas:c}});W=w;H=h;selection=null;setupStage();commit('Tela ridimensionata')}
@@ -83,7 +114,14 @@ function fit(){let avail=Math.max(180,work.clientWidth-70);zoom=Math.max(.1,Math
 $('new').onclick=()=>{if(!dirty||confirm('Creare un nuovo documento? Salva prima il lavoro corrente.'))newDoc()};$('save').onclick=saveProject;$('open').onclick=()=>$('fileProject').click();$('fileProject').onchange=e=>loadProject(e.target.files[0]);$('png').onclick=()=>exportImage('image/png');$('jpg').onclick=()=>exportImage('image/jpeg');$('undo').onclick=()=>undoRedo(-1);$('redo').onclick=()=>undoRedo(1);$('import').onclick=()=>$('fileImage').click();$('fileImage').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{if(f.size>25*1024*1024)throw Error('Immagine troppo grande');let u=URL.createObjectURL(f),im=new Image();try{await new Promise((resolve,reject)=>{im.onload=resolve;im.onerror=()=>reject(Error('Immagine non valida'));im.src=u});let c=canvas(),ctx=c.getContext('2d'),scale=Math.min(1,W/im.width,H/im.height);ctx.drawImage(im,0,0,im.width*scale,im.height*scale);layers.splice(active+1,0,layer(f.name.slice(0,80),c));active++;commit('Immagine importata')}finally{URL.revokeObjectURL(u)}}catch(err){alert(err.message)}e.target.value=''};
 $('addLayer').onclick=()=>addLayer();$('duplicate').onclick=()=>{let l=current(),c=canvas();c.getContext('2d').drawImage(l.canvas,0,0);layers.splice(active+1,0,{...l,id:++uid,name:l.name+' copia',canvas:c,locked:false});active++;commit('Livello duplicato')};$('deleteLayer').onclick=()=>{if(layers.length===1){say('Deve restare almeno un livello');return}if(!confirm('Eliminare il livello selezionato?'))return;layers.splice(active,1);active=Math.min(active,layers.length-1);commit('Livello eliminato')};$('up').onclick=()=>{if(active>=layers.length-1)return;[layers[active],layers[active+1]]=[layers[active+1],layers[active]];active++;commit('Livello spostato')};$('down').onclick=()=>{if(active<=0)return;[layers[active],layers[active-1]]=[layers[active-1],layers[active]];active--;commit('Livello spostato')};
 $('layerOpacity').oninput=e=>{current().opacity=+e.target.value/100;$('layerOpacityLabel').textContent=e.target.value+'%';current().canvas.style.opacity=current().opacity};$('layerOpacity').onchange=()=>commit('Opacità livello');$('blend').onchange=e=>{current().blend=e.target.value;commit('Fusione livello')};$('applyFilter').onclick=filterLayer;$('resize').onclick=resizeDoc;$('selectAll').onclick=()=>{selection={x:0,y:0,w:W,h:H};drawOverlay()};$('clearSelection').onclick=()=>{selection=null;drawOverlay()};$('copySelection').onclick=()=>selectionCopy(false);$('cutSelection').onclick=()=>selectionCopy(true);$('pasteSelection').onclick=paste;
-$('mode').onchange=modeChange;$('fit').onclick=fit;$('zoomIn').onclick=()=>{zoom=Math.min(3,zoom*1.25);setupStage();render()};$('zoomOut').onclick=()=>{zoom=Math.max(.1,zoom/1.25);setupStage();render()};for(let id of ['size','opacity','hardness'])$(id).oninput=e=>{$(id+'Label').textContent=e.target.value+(id==='size'?' px':'%')};document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-preset]').forEach(x=>x.classList.remove('active'));b.classList.add('active');const p=b.dataset.preset;setTool(p==='charcoal'?'pencil':p==='soft'?'brush':p==='spray'?'air':'marker');$('size').value=p==='charcoal'?8:p==='soft'?38:p==='spray'?52:18;$('hardness').value=p==='soft'?15:p==='charcoal'?65:75;$('opacity').value=p==='soft'?42:p==='charcoal'?65:85;for(const id of ['size','hardness','opacity'])$(id+'Label').textContent=$(id).value+(id==='size'?' px':'%');say('Preset '+b.textContent) }));$('help').onclick=()=>alert('CIGO STUDIO Paint 5.3\n\nDisegna sulla tela, organizza i livelli a destra.\nSalva .cigopaint per continuare a modificare i livelli; PNG/JPEG per esportare.\nScorciatoie: Ctrl+Z annulla, Ctrl+Y ripristina, Ctrl+S salva progetto, B pennello, E gomma, V sposta.\nIl salvataggio è locale: scarica regolarmente il progetto.');
+$('extractSelection').onclick=()=>transformSelection('extract');
+$('rotateLeft').onclick=()=>transformSelection('left');
+$('rotateRight').onclick=()=>transformSelection('right');
+$('flipH').onclick=()=>transformSelection('flipH');
+$('flipV').onclick=()=>transformSelection('flipV');
+$('scaleDown').onclick=()=>transformSelection('small');
+$('scaleUp').onclick=()=>transformSelection('large');
+$('mode').onchange=modeChange;$('fit').onclick=fit;$('zoomIn').onclick=()=>{zoom=Math.min(3,zoom*1.25);setupStage();render()};$('zoomOut').onclick=()=>{zoom=Math.max(.1,zoom/1.25);setupStage();render()};for(let id of ['size','opacity','hardness'])$(id).oninput=e=>{$(id+'Label').textContent=e.target.value+(id==='size'?' px':'%')};document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-preset]').forEach(x=>x.classList.remove('active'));b.classList.add('active');const p=b.dataset.preset;setTool(p==='charcoal'?'pencil':p==='soft'?'brush':p==='spray'?'air':'marker');$('size').value=p==='charcoal'?8:p==='soft'?38:p==='spray'?52:18;$('hardness').value=p==='soft'?15:p==='charcoal'?65:75;$('opacity').value=p==='soft'?42:p==='charcoal'?65:85;for(const id of ['size','hardness','opacity'])$(id+'Label').textContent=$(id).value+(id==='size'?' px':'%');say('Preset '+b.textContent) }));$('help').onclick=()=>alert('CIGO STUDIO Paint 5.4\n\nDisegna sulla tela, organizza i livelli a destra.\nSalva .cigopaint per continuare a modificare i livelli; PNG/JPEG per esportare.\nScorciatoie: Ctrl+Z annulla, Ctrl+Y ripristina, Ctrl+S salva progetto, B pennello, E gomma, V sposta.\nIl salvataggio è locale: scarica regolarmente il progetto.');
 document.addEventListener('keydown',e=>{if(['INPUT','SELECT','TEXTAREA'].includes(document.activeElement.tagName))return;let ctrl=e.ctrlKey||e.metaKey;if(ctrl&&e.key.toLowerCase()==='s'){e.preventDefault();saveProject()}else if(ctrl&&e.key.toLowerCase()==='z'){e.preventDefault();undoRedo(e.shiftKey?1:-1)}else if(ctrl&&e.key.toLowerCase()==='y'){e.preventDefault();undoRedo(1)}else if(!ctrl&&e.key.toLowerCase()==='b')setTool('brush');else if(!ctrl&&e.key.toLowerCase()==='e')setTool('eraser');else if(!ctrl&&e.key.toLowerCase()==='v')setTool('move')});window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue=''}});
 newDoc();fit();dirty=false;say('Pronto · salva spesso il progetto .cigopaint');
 })();
