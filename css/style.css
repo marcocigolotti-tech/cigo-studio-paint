@@ -28,3 +28,6 @@
 .tab-content .pair button{flex:1 1 auto}
 .tab-content h2{margin-top:13px}
 @media(max-width:850px){.panel-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* 5.8: pannello testo visibile solo con lo strumento Testo */
+.text-settings{display:none;padding:9px;margin:10px 0;border:1px solid #526277;border-radius:9px;background:#26384b}.text-tool-active .text-settings{display:block}.text-settings .field{margin:8px 0}.text-toggle{flex:1;text-align:center;background:#303d50;border:1px solid #526277;border-radius:7px;padding:8px 4px;cursor:pointer}.text-toggle input{vertical-align:middle}.text-settings #editText{width:100%;margin:9px 0 5px}.text-settings small{display:block;line-height:1.4}
