@@ -1,4 +1,4 @@
-// CIGO STUDIO Paint 6.1.2 — motore pennelli artistici (Canvas 2D, senza librerie).
+// CIGO STUDIO Paint 6.1.3 — motore pennelli artistici (Canvas 2D, senza librerie).
 // Le texture sono generate localmente, non usano immagini esterne.
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 function hash(n){let x=Math.sin(n*127.1+78.233)*43758.5453;return x-Math.floor(x)}

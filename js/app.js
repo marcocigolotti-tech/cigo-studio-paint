@@ -1,5 +1,5 @@
 
-import {strokeSegment} from './brushes.js?v=612';
+import {strokeSegment} from './brushes.js?v=613';
 import {pigmentStroke} from './pigment.js?v=603';
 import {validateProject} from './project.js?v=601';
 (()=>{'use strict';
@@ -207,7 +207,21 @@ $('scaleDown').onclick=()=>transformSelection('small');
 $('scaleUp').onclick=()=>transformSelection('large');
 const fillOption=$('fillShape').closest('.field');fillOption.classList.remove('advanced');fillOption.classList.add('shape-options');$('tools').insertAdjacentElement('afterend',fillOption);
 for(const id of ['pigmentStrength','pigmentSoftness']){const input=$(id),output=$(id+'Label');input.addEventListener('input',()=>{output.textContent=input.value+'%'});output.textContent=input.value+'%'}
-$('mode').onchange=modeChange;$('fit').onclick=fit;$('zoomIn').onclick=()=>{zoom=Math.min(3,zoom*1.25);setupStage();render()};$('zoomOut').onclick=()=>{zoom=Math.max(.1,zoom/1.25);setupStage();render()};for(let id of ['size','opacity','hardness','paintFlow','paintGrain'])$(id).oninput=e=>{$(id+'Label').textContent=e.target.value+(id==='size'?' px':'%')};document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-preset]').forEach(x=>x.classList.remove('active'));b.classList.add('active');const p=b.dataset.preset;setTool(p==='charcoal'?'charcoal':p==='soft'?'brush':p==='spray'?'air':p==='pastel'?'pastel':'marker');$('size').value=p==='charcoal'?24:p==='pastel'?34:p==='soft'?38:p==='spray'?52:18;$('hardness').value=p==='soft'?15:p==='charcoal'?55:p==='pastel'?35:75;$('opacity').value=p==='soft'?42:p==='charcoal'?72:p==='pastel'?66:85;$('paintFlow').value=p==='charcoal'?36:p==='pastel'?48:p==='soft'?55:80;$('paintGrain').value=p==='charcoal'?82:p==='pastel'?68:25;for(const id of ['paintFlow','paintGrain'])$(id+'Label').textContent=$(id).value+'%';for(const id of ['size','hardness','opacity'])$(id+'Label').textContent=$(id).value+(id==='size'?' px':'%');say('Preset '+b.textContent) }));$('help').onclick=()=>alert('CIGO STUDIO Paint 6.1\n\nDisegna sulla tela, organizza i livelli a destra.\nSalva .cigopaint per continuare a modificare i livelli; PNG/JPEG per esportare.\nScorciatoie: Ctrl+Z annulla, Ctrl+Y ripristina, Ctrl+S salva progetto, B pennello, E gomma, V sposta.\nIl salvataggio è locale: scarica regolarmente il progetto.');
+const graphiteGrades={
+ '2H':{flow:34,grain:64,hardness:95,opacity:75},
+ 'HB':{flow:64,grain:52,hardness:80,opacity:95},
+ '2B':{flow:82,grain:44,hardness:65,opacity:100},
+ '6B':{flow:100,grain:34,hardness:45,opacity:100}
+};
+$('graphiteGrade').addEventListener('change',e=>{
+ const p=graphiteGrades[e.target.value];if(!p)return;
+ setTool('pencil');
+ for(const [id,value] of [['paintFlow',p.flow],['paintGrain',p.grain],['hardness',p.hardness],['opacity',p.opacity]]){
+  $(id).value=value;$(id+'Label').textContent=value+'%';
+ }
+ say('Matita '+e.target.value+' · grafite regolata');
+});
+$('mode').onchange=modeChange;$('fit').onclick=fit;$('zoomIn').onclick=()=>{zoom=Math.min(3,zoom*1.25);setupStage();render()};$('zoomOut').onclick=()=>{zoom=Math.max(.1,zoom/1.25);setupStage();render()};for(let id of ['size','opacity','hardness','paintFlow','paintGrain'])$(id).oninput=e=>{$(id+'Label').textContent=e.target.value+(id==='size'?' px':'%')};document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-preset]').forEach(x=>x.classList.remove('active'));b.classList.add('active');const p=b.dataset.preset;setTool(p==='charcoal'?'charcoal':p==='soft'?'brush':p==='spray'?'air':p==='pastel'?'pastel':'marker');$('size').value=p==='charcoal'?24:p==='pastel'?34:p==='soft'?38:p==='spray'?52:18;$('hardness').value=p==='soft'?15:p==='charcoal'?55:p==='pastel'?35:75;$('opacity').value=p==='soft'?42:p==='charcoal'?72:p==='pastel'?66:85;$('paintFlow').value=p==='charcoal'?36:p==='pastel'?48:p==='soft'?55:80;$('paintGrain').value=p==='charcoal'?82:p==='pastel'?68:25;for(const id of ['paintFlow','paintGrain'])$(id+'Label').textContent=$(id).value+'%';for(const id of ['size','hardness','opacity'])$(id+'Label').textContent=$(id).value+(id==='size'?' px':'%');say('Preset '+b.textContent) }));$('help').onclick=()=>alert('CIGO STUDIO Paint 6.1.3\n\nDisegna sulla tela, organizza i livelli a destra.\nSalva .cigopaint per continuare a modificare i livelli; PNG/JPEG per esportare.\nScorciatoie: Ctrl+Z annulla, Ctrl+Y ripristina, Ctrl+S salva progetto, B pennello, E gomma, V sposta.\nIl salvataggio è locale: scarica regolarmente il progetto.');
 document.addEventListener('keydown',e=>{if(['INPUT','SELECT','TEXTAREA'].includes(document.activeElement.tagName))return;let ctrl=e.ctrlKey||e.metaKey;if(ctrl&&e.key.toLowerCase()==='s'){e.preventDefault();saveProject()}else if(ctrl&&e.key.toLowerCase()==='z'){e.preventDefault();undoRedo(e.shiftKey?1:-1)}else if(ctrl&&e.key.toLowerCase()==='y'){e.preventDefault();undoRedo(1)}else if(!ctrl&&e.key.toLowerCase()==='b')setTool('brush');else if(!ctrl&&e.key.toLowerCase()==='e')setTool('eraser');else if(!ctrl&&e.key.toLowerCase()==='v')setTool('move')});window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue=''}});
 newDoc();fit();dirty=false;say('Pronto · salva spesso il progetto .cigopaint');
 })();
