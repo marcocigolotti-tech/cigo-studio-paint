@@ -1,13 +1,16 @@
-# CIGO STUDIO Paint 6.0.4 — manutenzione
+# CIGO STUDIO Paint 6.1 — Pennelli artistici
 
-- Gomma: corretta la maschera di cancellazione; il tratto viene applicato al livello con `destination-out`.
-- Forme: la casella «Forma piena» compare subito sotto il menu degli strumenti quando scegli rettangolo, rettangolo arrotondato o ellisse.
-- Sfumature: le percentuali dei cursori Intensità e Morbidezza si aggiornano mentre li sposti.
-- La durezza generale è distinta dalla morbidezza del bordo dello Sfumino.
-- Il Miscelatore continua a lavorare soltanto sui pixel presenti sul livello attivo.
+Aggiornamento incrementale della versione stabile 6.0.4.
 
-## Installazione
-Carica il contenuto dello ZIP nella radice del repository GitHub Pages, preservando le cartelle `css` e `js`.
+- Nuovi strumenti **Carboncino** e **Pastello** nel menu Pittura.
+- Matita rielaborata con deposizione granulare.
+- Nuovi controlli **Flusso pigmento** e **Grana del tratto**.
+- Preset Carboncino e Pastello aggiornati.
+- Mantiene Gomma, forme piene, Sfumino, Miscelatore, livelli, testi e formato `.cigopaint`.
 
-## Crediti
-Ideato, progettato e creato dal Prof. Marco Cigolotti · Sviluppato con il supporto dell'intelligenza artificiale · © 2026
+**Limiti:** la texture è procedurale, non simula ancora la fisica della carta né la miscelazione reale dei pigmenti. La resa dipende anche dalla dimensione della tela.
+
+## GitHub Pages
+Carica *il contenuto* dello ZIP nella radice del repository, mantenendo le cartelle `css/` e `js/`. Ricarica la pagina forzando l'aggiornamento (Ctrl+Maiusc+R).
+
+Ideato, progettato e creato dal Prof. Marco Cigolotti. Sviluppato con il supporto dell'intelligenza artificiale. © 2026.
