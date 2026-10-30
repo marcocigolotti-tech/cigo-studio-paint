@@ -1,16 +1,12 @@
-# CIGO STUDIO Paint 5.8 — Testo avanzato
+# CIGO STUDIO Paint 5.9 — Modifica del testo sulla tela
 
-Novità: font, dimensione 8–240 px, grassetto, corsivo, sottolineato, allineamento, interlinea e livelli di testo modificabili.
+Novità rispetto alla 5.8:
+- Con lo strumento Testo, clicca una scritta esistente per selezionarne il livello.
+- Fai doppio clic sulla scritta per modificarla direttamente sulla tela.
+- Usa Applica per confermare, Annulla o Esc per uscire. Ctrl+Invio applica.
+- Il pulsante «Modifica testo del livello» apre lo stesso editor sulla tela.
+- Le scritte rimangono modificabili nel file `.cigopaint` (non in PNG/JPEG).
 
-## Utilizzo
-1. Scegli **Grafica → Testo**: compare il pannello Testo sulla sinistra.
-2. Imposta carattere, dimensione, stile e colore; clicca sulla tela e scrivi.
-3. Il testo viene creato su un livello dedicato. Seleziona quel livello e usa **Modifica testo del livello** per correggere il contenuto o applicare nuove impostazioni.
-4. Salva il file `.cigopaint` per conservare il testo modificabile. I progetti delle versioni precedenti si aprono normalmente, ma il vecchio testo già rasterizzato non diventa automaticamente modificabile.
-
-**Nota:** le trasformazioni raster e i filtri applicati a un livello di testo possono modificare i pixel; per modificare il testo conviene usare un livello dedicato senza dipingerci sopra.
-
-## Installazione
-Estrai lo ZIP e carica `index.html` e le cartelle `css` e `js` nella radice del repository GitHub Pages. Non caricare soltanto il file ZIP.
+Carica tutto il contenuto dello ZIP nel repository GitHub Pages, rispettando le cartelle.
 
 Ideato, progettato e creato dal Prof. Marco Cigolotti · Sviluppato con il supporto dell'intelligenza artificiale · © 2026.
