@@ -1,16 +1,20 @@
-# CIGO STUDIO Paint 5.0 Complete
+# CIGO STUDIO Paint 5.3 — Drawing Tools
 
-Ideato, progettato e creato dal Prof. Marco Cigolotti. Sviluppato con il supporto dell’intelligenza artificiale. © 2026.
+Aggiornamento incrementale basato sulla versione 5.2 funzionante.
 
-## Pubblicazione GitHub Pages
-Carica **tutti** i file e le cartelle (`index.html`, `css/`, `js/`) nella radice del repository `cigo-studio-paint`. Attiva Settings → Pages → Deploy from a branch → main → /(root).
+Novità:
+- Freccia e rettangolo con angoli arrotondati.
+- Anteprima delle forme realizzata con lo stesso tracciato della forma definitiva.
+- Maiusc (Shift) durante il trascinamento per cerchi/quadrati e linee a multipli di 45°.
+- Contorni con estremità e giunzioni arrotondate.
+- Titolo e guida aggiornati a 5.3.
 
-## Utilizzo
-Pittura, grafica raster, livelli, filtri, selezione rettangolare, modalità Scuola. Salva il progetto in `.cigopaint` e riaprilo con «Apri progetto». PNG e JPEG sono esportazioni appiattite. I file restano sul dispositivo.
+Il formato .cigopaint resta invariato e compatibile con i progetti della versione 5.2.
 
-## Limiti
-L'app è un editor raster didattico/creativo, non Photoshop: niente maschere complesse, vettori modificabili o salvataggio cloud. Il browser può limitare memoria e dimensioni. Conserva copie dei progetti. Il file `index.html` usa moduli JavaScript: eseguilo tramite GitHub Pages o un server HTTP locale, non tramite `file://`.
+## Pubblicazione
+Caricare index.html e le cartelle css/ e js/ nella radice del repository GitHub Pages.
 
+## Test consigliato
+Disegnare rettangolo, ellisse, freccia e linea; cambiare strumento; salvare .cigopaint; riaprire e verificare i livelli.
 
-## Correzione 5.2
-Risolto il mancato salvataggio definitivo di linee, rettangoli ed ellissi: drawShape riceve ora il contesto 2D del livello attivo.
+Ideato, progettato e creato dal Prof. Marco Cigolotti — con supporto IA.
