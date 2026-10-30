@@ -1,6 +1,7 @@
-CIGO STUDIO Paint 6.1.1 — Correzione Matita
+CIGO STUDIO Paint 6.1.2 — Grafite naturale
 
-La matita ora disegna un nucleo grafitico continuo e visibile, con grana aggiuntiva regolabile.
-Sono conservati gli altri strumenti della 6.1.
+Correzione matita: niente nucleo uniforme tipo pennarello; microdepositi e fibre longitudinali discontinue con texture di carta.
 
-Caricare index.html e tutte le cartelle css e js nel repository GitHub Pages.
+Test: Matita 8–14 px, flusso 70–90%, grana 35–60%, opacità 100%. Ripassare più volte per scurire.
+
+Caricare tutti i file su GitHub Pages mantenendo css/ e js/.

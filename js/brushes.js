@@ -1,4 +1,4 @@
-// CIGO STUDIO Paint 6.1 — motore pennelli artistici (Canvas 2D, senza librerie).
+// CIGO STUDIO Paint 6.1.2 — motore pennelli artistici (Canvas 2D, senza librerie).
 // Le texture sono generate localmente, non usano immagini esterne.
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 function hash(n){let x=Math.sin(n*127.1+78.233)*43758.5453;return x-Math.floor(x)}
@@ -7,26 +7,47 @@ export function strokeSegment(ctx,a,b,{tool,color,size,opacity,hardness,flow=.65
  ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=w;
  if(tool==='eraser'){ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();if(Math.hypot(b.x-a.x,b.y-a.y)<.5){ctx.beginPath();ctx.arc(b.x,b.y,w/2,0,Math.PI*2);ctx.fill()}return}
  if(tool==='pencil'){
-  // Nucleo continuo di grafite: il tratto deve restare leggibile anche con grana alta.
-  // Il flusso varia la densità, ma non può azzerare il segno.
-  const f=clamp(flow,.01,1), g=clamp(grain,0,1), h=clamp(hardness,0,1);
-  const baseAlpha=clamp((.48+.47*f)*(.87+.13*h),.40,.98)*clamp(opacity,0,1);
-  ctx.globalAlpha=baseAlpha;
-  ctx.lineWidth=Math.max(.8,w*(.62+.26*h));
-  ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
-  if(Math.hypot(b.x-a.x,b.y-a.y)<.5){ctx.beginPath();ctx.arc(b.x,b.y,ctx.lineWidth/2,0,Math.PI*2);ctx.fill()}
-  // Grana laterale, senza eliminare il nucleo grafitico.
-  const d=Math.hypot(b.x-a.x,b.y-a.y),steps=Math.max(1,Math.ceil(d/Math.max(.8,w*.16)));
-  const radius=Math.max(.7,w*.48);
-  for(let i=0;i<=steps;i++){
-   const t=i/steps,cx=a.x+(b.x-a.x)*t,cy=a.y+(b.y-a.y)*t;
-   const n=Math.min(24,Math.max(3,Math.round(w*1.2*g)));
-   for(let j=0;j<n;j++){
-    const seed=Math.floor(cx*17+cy*23+i*97+j*271),u=hash(seed),v=hash(seed+19);
-    const r=Math.sqrt(u)*radius,ang=v*Math.PI*2;
-    ctx.globalAlpha=clamp(opacity,0,1)*(.10+.25*f)*(1-r/radius);
-    const px=cx+Math.cos(ang)*r,py=cy+Math.sin(ang)*r;
-    ctx.fillRect(px,py,Math.max(.5,w*.04),Math.max(.5,w*.04));
+  // Grafite: nessun nucleo opaco e uniforme (effetto pennarello).
+  // Fibre longitudinali discontinue + microdepositi su una trama di carta stabile.
+  const f=clamp(flow,.01,1),g=clamp(grain,0,1),h=clamp(hardness,0,1);
+  const power=clamp(pressure,.1,1.8);
+  const len=Math.hypot(b.x-a.x,b.y-a.y);
+  const tx=len>0?(b.x-a.x)/len:1,ty=len>0?(b.y-a.y)/len:0;
+  const nx=-ty,ny=tx;
+  const width=Math.max(1.1,w*(.9+.18*h));
+  const count=Math.max(1,Math.ceil(len/.55));
+  // Molte fibre sottili: maggiore flusso = maggiore densità, non linea solida.
+  const fibers=Math.min(35,Math.max(7,Math.round(width*(2.3+f*2))));
+  const alpha=clamp(opacity,0,1);
+  for(let i=0;i<=count;i++){
+   const t=i/count,cx=a.x+(b.x-a.x)*t,cy=a.y+(b.y-a.y)*t;
+   for(let j=0;j<fibers;j++){
+    const offset=(j/(fibers-1)-.5)*width;
+    const x=cx+nx*offset,y=cy+ny*offset;
+    // Rumore legato alle coordinate del foglio, non al numero del segmento.
+    const cellX=Math.floor(x*2.3),cellY=Math.floor(y*2.3);
+    const paper=hash(cellX*103.17+cellY*297.31);
+    const fleck=hash(cellX*13.7+cellY*71.3+j*7.1);
+    const edge=Math.pow(Math.max(0,1-Math.abs(offset)/(width*.55)),.6+.7*(1-h));
+    const tooth=.24+.76*paper;
+    const coverage=clamp((.32+.64*f)*(.74+.26*power)*edge*(1-g*.60)+.08,0,1);
+    if(fleck>coverage*tooth)continue;
+    ctx.globalAlpha=alpha*(.16+.35*f)*(.65+.35*power)*(.65+.35*paper);
+    const strokeLen=.55+1.1*hash(cellX*5.1+cellY*17.9+j);
+    ctx.fillRect(x-.23,y-.23,Math.max(.34,Math.abs(tx)*strokeLen+.25),Math.max(.34,Math.abs(ty)*strokeLen+.25));
+   }
+  }
+  // Pochissime fibre scure intermittenti per una grafite decisa senza contorno netto.
+  if(f>.58){
+   const tracks=Math.max(2,Math.round(width*.55));
+   for(let k=0;k<tracks;k++){
+    const off=(k/(tracks-1)-.5)*width*.75;
+    const x1=a.x+nx*off,y1=a.y+ny*off,x2=b.x+nx*off,y2=b.y+ny*off;
+    const noise=hash(Math.floor((x1+x2)*.7)*41+Math.floor((y1+y2)*.7)*53+k*19);
+    if(noise<g*.38)continue;
+    ctx.globalAlpha=alpha*(.035+.085*f)*(.6+.4*power);
+    ctx.lineWidth=.32+.25*h;
+    ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
    }
   }
   ctx.globalAlpha=opacity;
