@@ -39,3 +39,6 @@
 
 /* 6.0: controlli delle sfumature visibili soltanto per i nuovi strumenti */
 .pigment-settings{display:none;padding:9px;margin:10px 0;border:1px solid #526277;border-radius:9px;background:#26384b}.pigment-settings .field{margin:8px 0}.pigment-settings small{display:block;line-height:1.5}.pigment-tool-active .pigment-settings{display:block}
+
+/* 6.0.4: opzioni contestuali */
+.shape-options{display:none;border:1px solid #b68a46;border-radius:8px;padding:10px;background:#303b4b;margin:8px 0}.shape-tool-active .shape-options{display:flex}.shape-options label{font-size:14px;font-weight:700;cursor:pointer}.pigment-settings output{font-weight:700;color:#ffce85}.pigment-settings input[type=range]{cursor:pointer}

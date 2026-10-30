@@ -1,9 +1,13 @@
-CIGO STUDIO Paint 6.0.3 — Miscelatore corretto
+# CIGO STUDIO Paint 6.0.4 — manutenzione
 
-Il Miscelatore ora agisce SOLO sui pixel già colorati del LIVELLO ATTIVO: non disegna pennellate su zone vuote. La fusione mantiene la saturazione e interpola la tonalità: blu + giallo produce verdi.
+- Gomma: corretta la maschera di cancellazione; il tratto viene applicato al livello con `destination-out`.
+- Forme: la casella «Forma piena» compare subito sotto il menu degli strumenti quando scegli rettangolo, rettangolo arrotondato o ellisse.
+- Sfumature: le percentuali dei cursori Intensità e Morbidezza si aggiornano mentre li sposti.
+- La durezza generale è distinta dalla morbidezza del bordo dello Sfumino.
+- Il Miscelatore continua a lavorare soltanto sui pixel presenti sul livello attivo.
 
-PROVA: crea un NUOVO progetto; sullo STESSO LIVELLO disegna una macchia gialla; scegli blu, Miscelatore, dimensione 45, intensità 85%; passa sulla macchia gialla. Non dipinge sul bianco trasparente.
+## Installazione
+Carica il contenuto dello ZIP nella radice del repository GitHub Pages, preservando le cartelle `css` e `js`.
 
-NOTA: un'immagine importata può stare su un livello diverso da quello attivo. Seleziona il livello dell'immagine prima di usare Miscelatore. Su livelli separati non avviene ancora la miscelazione incrociata.
-
-Carica su GitHub tutti i file, mantenendo css/ e js/.
+## Crediti
+Ideato, progettato e creato dal Prof. Marco Cigolotti · Sviluppato con il supporto dell'intelligenza artificiale · © 2026
