@@ -36,3 +36,6 @@
 .canvas-text-editor{position:absolute;z-index:999;box-sizing:border-box;padding:5px;background:rgba(255,255,255,.95);border:2px dashed #237ac0;border-radius:4px;resize:both;min-width:140px;min-height:60px;white-space:pre-wrap;overflow:auto;}
 .canvas-text-actions{position:absolute;z-index:1000;display:flex;gap:5px;white-space:nowrap;}
 .canvas-text-actions button{background:#164d72;color:white;border:1px solid #82bbdb;border-radius:5px;padding:6px 10px;cursor:pointer;}
+
+/* 6.0: controlli delle sfumature visibili soltanto per i nuovi strumenti */
+.pigment-settings{display:none;padding:9px;margin:10px 0;border:1px solid #526277;border-radius:9px;background:#26384b}.pigment-settings .field{margin:8px 0}.pigment-settings small{display:block;line-height:1.5}.pigment-tool-active .pigment-settings{display:block}
