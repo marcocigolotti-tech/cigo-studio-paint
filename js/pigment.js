@@ -2,6 +2,10 @@
 // Opera esclusivamente sul livello attivo; il progetto resta compatibile.
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const rgb=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+// Interpolazione cromatica: mantiene la saturazione e passa per il verde fra giallo e blu.
+function hsv(c){let r=c[0]/255,g=c[1]/255,b=c[2]/255,max=Math.max(r,g,b),min=Math.min(r,g,b),d=max-min,h=0;if(d){switch(max){case r:h=((g-b)/d)%6;break;case g:h=(b-r)/d+2;break;default:h=(r-g)/d+4}h=(h*60+360)%360}return [h,max?d/max:0,max]}
+function fromHsv(h,s,v){let c=v*s,x=c*(1-Math.abs((h/60)%2-1)),m=v-c,a=[0,0,0];if(h<60)a=[c,x,0];else if(h<120)a=[x,c,0];else if(h<180)a=[0,c,x];else if(h<240)a=[0,x,c];else if(h<300)a=[x,0,c];else a=[c,0,x];return a.map(q=>Math.round((q+m)*255))}
+function mixPigment(old,ink,t){const a=hsv(old),b=hsv(ink);if(a[1]<.07||b[1]<.07)return old.map((v,i)=>Math.round(v*(1-t)+ink[i]*t));let dh=((b[0]-a[0]+540)%360)-180;return fromHsv((a[0]+dh*t+360)%360,a[1]*(1-t)+b[1]*t,a[2]*(1-t)+b[2]*t)}
 export function pigmentStroke(ctx,a,b,{kind,size,strength,softness,color,selection}){
  const radius=clamp(Math.round(size/2),1,60),step=Math.max(1,radius*.27);
  const distance=Math.hypot(b.x-a.x,b.y-a.y),n=Math.max(1,Math.ceil(distance/step));
@@ -30,13 +34,13 @@ export function pigmentStroke(ctx,a,b,{kind,size,strength,softness,color,selecti
    const edge=softness*(1-d)+(1-softness)*(d<.82?1:(1-d)/.18);
    const amt=clamp(strength*edge*(kind==='mixer'?1.0:.55),0,.95),i=(yy*w+xx)*4;
    if(kind==='mixer'){
-    // Miscelazione di pigmento scelto e colore già presente, rispettando l'alpha.
-    // Source-over corretto: il pigmento nuovo si miscela con quello presente.
-    // Su pixel opachi, l'effetto rimane visibile; sui trasparenti dipinge.
+    // Non dipingere sul vuoto: il miscelatore agisce SOLO sul pigmento esistente.
     const oldA=data[i+3]/255;
-    const newA=amt+oldA*(1-amt);
-    for(let c=0;c<3;c++)data[i+c]=Math.round((ink[c]*amt+data[i+c]*oldA*(1-amt))/Math.max(newA,1e-6));
-    data[i+3]=Math.round(newA*255);
+    if(oldA<.06)continue;
+    const mixed=mixPigment([data[i],data[i+1],data[i+2]],ink,amt);
+    for(let c=0;c<3;c++)data[i+c]=mixed[c];
+    // Conserva la trasparenza del livello originale.
+    data[i+3]=Math.round(oldA*255);
    }else if(pickup){
     const pA=pickup[3]/255,oldA=data[i+3]/255,newA=oldA*(1-amt)+pA*amt;
     for(let c=0;c<3;c++)data[i+c]=Math.round((data[i+c]*oldA*(1-amt)+pickup[c]*pA*amt)/Math.max(newA,1e-6));
