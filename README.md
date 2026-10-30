@@ -1,14 +1,18 @@
-# CIGO STUDIO Paint 5.6 — Pannelli compatti
+# CIGO STUDIO Paint 5.7 — Griglia e simmetria
 
-Versione derivata dalla 5.5. Il pannello destro è ora diviso in quattro schede: **Tela**, **Livelli**, **Filtri**, **Selezione**. La gestione della pittura, delle forme, dei livelli e del formato `.cigopaint` resta invariata.
+Evoluzione mirata della versione 5.6.
 
-## Pubblicazione GitHub Pages
-Caricare nella radice del repository `index.html`, `css/`, `js/` e `README.md`, mantenendo i percorsi. Dopo la pubblicazione aggiornare la pagina forzando la cache (Ctrl+F5).
+## Novità
+- Griglia di costruzione ogni 50 pixel, visibile solo sullo schermo e non esportata.
+- Asse di simmetria verticale e pennellate specchiate per pennello, matita, pennarello, aerografo e gomma.
+- Tutti gli strumenti e i file .cigopaint della 5.6 restano compatibili.
 
-## Prove consigliate
-1. Passare tra le quattro schede e verificare che i controlli siano accessibili.
-2. Creare un rettangolo, cambiare strumento e controllare che rimanga.
-3. Salvare un progetto `.cigopaint`, ricaricarlo e verificare i livelli.
-4. Applicare un filtro e una trasformazione selezionando le rispettive schede.
+## Installazione
+Carica index.html e le cartelle css e js nella radice del repository GitHub Pages.
 
-Ideato, progettato e creato dal Prof. Marco Cigolotti. Sviluppato con il supporto dell'intelligenza artificiale. © 2026.
+## Prove suggerite
+1. Attiva la griglia e disegna: esporta PNG e verifica che la griglia non sia presente.
+2. Attiva la simmetria e traccia una curva: devono apparire due tratti speculari.
+3. Salva .cigopaint, riapri e verifica i livelli.
+
+Ideato, progettato e creato dal Prof. Marco Cigolotti. Sviluppato con il supporto dell’intelligenza artificiale.
