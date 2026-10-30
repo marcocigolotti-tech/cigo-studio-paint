@@ -1,13 +1,6 @@
-# CIGO STUDIO Paint 6.0 — Sfumature
+CIGO STUDIO Paint 6.0.1 — correzione distribuzione
 
-Novità: menu **🎨 Sfumature** con **Sfumino** e **Miscelatore**, regolazioni Intensità e Morbidezza.
-
-- **Sfumino:** trascina e distribuisce i pixel del livello attivo, senza introdurre un nuovo colore. Per provarlo, dipingi una macchia opaca e trascina lo sfumino dal bordo verso la zona vuota.
-- **Miscelatore:** fonde il colore scelto nel selettore con il colore esistente sul livello attivo.
-- I due strumenti rispettano la selezione rettangolare, il blocco del livello e la cronologia Annulla/Ripristina.
-- Le modifiche vengono salvate nel formato `.cigopaint` già esistente.
-- Limite attuale: è una miscelazione raster di base, non un modello fisico completo di pigmenti e carta; lo sfumino non attraversa livelli diversi.
-
-Per GitHub Pages caricare `index.html`, `css/`, `js/` mantenendo la struttura.
-
-Ideato, progettato e creato dal Prof. Marco Cigolotti · Sviluppato con il supporto dell'intelligenza artificiale · © 2026.
+Caricare TUTTI i file e cartelle nella radice del repository GitHub Pages. Non caricare lo ZIP come singolo file.
+Verificare che index.html, css/style.css, js/app.js, js/pigment.js, js/brushes.js, js/project.js e js/panels.js siano aggiornati.
+Il titolo e la testata mostrano 6.0.1. Cache busting tramite ?v=601.
+La modalità Scuola nasconde Sfumino e Miscelatore: selezionare Studio.

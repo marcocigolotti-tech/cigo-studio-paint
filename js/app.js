@@ -1,7 +1,7 @@
 
-import {strokeSegment} from './brushes.js';
-import {pigmentStroke} from './pigment.js';
-import {validateProject} from './project.js';
+import {strokeSegment} from './brushes.js?v=601';
+import {pigmentStroke} from './pigment.js?v=601';
+import {validateProject} from './project.js?v=601';
 (()=>{'use strict';
 const $=id=>document.getElementById(id), stage=$('stage'),overlay=$('overlay'),ov=overlay.getContext('2d'),work=$('work');
 const TOOLS=[['brush','🖌 Pennello'],['pencil','✏️ Matita'],['marker','🖍 Pennarello'],['air','☁️ Aerografo'],['smudge','☝ Sfumino'],['mixer','🎨 Miscelatore'],['eraser','⌫ Gomma'],['line','／ Linea'],['arrow','➜ Freccia'],['rect','▭ Rettangolo'],['roundrect','▢ Angoli tondi'],['ellipse','◯ Ellisse'],['fill','▧ Secchiello'],['pick','◉ Contagocce'],['text','T Testo'],['select','▣ Seleziona'],['move','✥ Sposta livello'],['hand','✋ Mano']];
