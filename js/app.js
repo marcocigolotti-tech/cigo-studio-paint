@@ -1,5 +1,5 @@
 
-import {strokeSegment} from './brushes.js?v=601';
+import {strokeSegment} from './brushes.js?v=611';
 import {pigmentStroke} from './pigment.js?v=603';
 import {validateProject} from './project.js?v=601';
 (()=>{'use strict';
