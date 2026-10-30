@@ -1,17 +1,29 @@
-# CIGO STUDIO Paint 3.0
-Web app di disegno, pittura e grafica, con modalità Studio e Scuola.
+# CIGO STUDIO Paint 4.0 Complete
 
-## Pubblicazione GitHub Pages
-Carica `index.html` nella radice del repository, quindi Settings > Pages > Deploy from a branch > main > /(root).
+Web app di pittura, grafica e fotoritocco, con modalità Studio e Scuola.
+
+**Ideato, progettato e creato dal Prof. Marco Cigolotti. Sviluppato con il supporto dell'intelligenza artificiale. © 2026.**
+
+## Pubblicazione su GitHub Pages
+
+1. Apri il repository `cigo-studio-paint`.
+2. Carica `index.html` nella cartella principale del ramo `main`, sostituendo il precedente.
+3. In Settings > Pages seleziona `Deploy from a branch`, ramo `main`, cartella `/(root)`.
+4. Apri `https://marcocigolotti-tech.github.io/cigo-studio-paint/` dopo la pubblicazione.
+
+Non sono necessari server, librerie esterne o account per disegnare.
 
 ## Salvataggio
-- **Salva progetto**: scarica un file `.cigopaint` che conserva livelli e impostazioni.
-- **Apri progetto**: riapre un `.cigopaint` salvato.
-- **Esporta PNG/JPEG**: salva l'immagine finale senza livelli.
 
-I progetti sono salvati sul dispositivo, non su un server. Per sicurezza, scarica spesso il file di progetto.
+- **Salva .cigopaint** scarica un progetto JSON contenente le immagini PNG di tutti i livelli e le impostazioni.
+- **Apri progetto** ricarica il file `.cigopaint` e ricostruisce i livelli.
+- **PNG/JPEG** esportano l'immagine composita (il JPEG usa uno sfondo bianco).
+- Il browser non salva automaticamente: scarica regolarmente il progetto. Il salvataggio non usa servizi cloud.
 
-## Note
-Filtri e trasformazioni agiscono sul livello selezionato. Il riempimento usa una tolleranza colore semplice. Non è un editor vettoriale né un sostituto di Photoshop. Verificare la resa su dispositivi diversi.
+## Strumenti
 
-Ideato, progettato e creato dal Prof. Marco Cigolotti. Sviluppato con il supporto dell'intelligenza artificiale. © 2026 Marco Cigolotti.
+Pennello, matita, pennarello, aerografo, gomma, linee, rettangoli, ellissi, riempimento, contagocce, testo, selezione rettangolare, spostamento livello, mano. Livelli con visibilità, blocco, opacità, modalità di fusione, duplicazione e riordino. Filtri base sul livello attivo. Cronologia fino a 16 stati.
+
+## Limiti dichiarati
+
+Non è un sostituto di Photoshop. Le selezioni sono rettangolari, non sono presenti maschere o vettori modificabili. La cronologia memorizza copie PNG e può usare molta RAM con tele grandi. L'app è pensata inizialmente per tele medio-piccole e deve essere provata nel browser di destinazione. La pressione della penna non è ancora implementata.
