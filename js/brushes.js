@@ -1,4 +1,4 @@
-// CIGO STUDIO Paint 6.1.7 — motore pennelli artistici (Canvas 2D, senza librerie).
+// CIGO STUDIO Paint 6.1.8 — motore pennelli artistici (Canvas 2D, senza librerie).
 // Le texture sono generate localmente, non usano immagini esterne.
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 function hash(n){let x=Math.sin(n*127.1+78.233)*43758.5453;return x-Math.floor(x)}
@@ -53,7 +53,37 @@ export function strokeSegment(ctx,a,b,{tool,color,size,opacity,hardness,flow=.65
   ctx.globalAlpha=opacity;
   return;
  }
- if(tool==='charcoal'||tool==='pastel'){
+ if(tool==='pastel'){
+  // Pastello spesso: pigmento cromaticamente pieno, bordi morbidi e grana visibile.
+  // Il colore originale non viene schiarito o desaturato: è la copertura a variare.
+  const f=clamp(flow,.01,1),g=clamp(grain,0,1),h=clamp(hardness,0,1);
+  const scale=paper==='rough'?.68:paper==='fine'?2.0:1.15;
+  const radius=Math.max(1,w*.5),distance=Math.hypot(b.x-a.x,b.y-a.y);
+  const steps=Math.max(1,Math.ceil(distance/Math.max(.8,radius*.17)));
+  const press=clamp(pressure,.12,1.8);
+  for(let i=0;i<=steps;i++){
+   const t=i/steps,cx=a.x+(b.x-a.x)*t,cy=a.y+(b.y-a.y)*t;
+   // Strato morbido e corposo: non crea una riga netta come il pennarello.
+   const deposits=Math.min(500,Math.max(55,Math.round(radius*radius*(1.8+f*2.4))));
+   for(let j=0;j<deposits;j++){
+    const seed=Math.floor(cx*4.71+cy*9.83+i*193+j*127);
+    const rad=Math.sqrt(hash(seed))*radius,ang=hash(seed+17)*Math.PI*2;
+    const x=cx+Math.cos(ang)*rad,y=cy+Math.sin(ang)*rad;
+    const px=Math.floor(x*scale),py=Math.floor(y*scale);
+    const tooth=hash(px*73.17+py*113.81),fleck=hash(px*17.31+py*41.71+j*3.19);
+    const edge=Math.pow(Math.max(0,1-rad/radius),.28+(1-h)*.6);
+    // Parte della trama resta scoperta, soprattutto con grana ruvida.
+    const cover=clamp(.95-g*.27+f*.13+edge*.10,0,1);
+    if(fleck>cover || tooth<g*.10)continue;
+    ctx.globalAlpha=clamp(opacity*(.19+.33*f)*(.60+.40*edge)*(.68+.32*tooth)*press,0,.9);
+    const speck=Math.max(.85,Math.min(3.4,radius*.075))*(.8+.6*hash(seed+31));
+    ctx.fillRect(x-speck/2,y-speck/2,speck,speck*(.8+.45*hash(seed+41)));
+   }
+  }
+  ctx.globalAlpha=opacity;
+  return;
+ }
+ if(tool==='charcoal'){
   // Deposito granulare sulla trama del foglio: il rumore dipende dalle
   // coordinate assolute, quindi non cambia casualmente a ogni passaggio.
   const isCharcoal=tool==='charcoal';

@@ -1,3 +1,14 @@
+# CIGO STUDIO Paint 6.1.8 — Pastello brillante e corposo
+
+- Pastello con tratto più ampio, pigmento intenso e cromaticamente brillante.
+- Depositi granulari con trama carta fine/media/ruvida e bordi non uniformi.
+- Preset pastello: dimensione 44 px, opacità 100%, flusso 92%, grana 48%.
+- Carboncino e matite 2H, HB, 2B, 4B, 6B invariati.
+- Il colore resta quello selezionato: per un pastello più brillante scegliere una tinta satura nel selettore colore.
+
+## Installazione GitHub Pages
+Sostituire i file nella radice del repository, mantenendo le cartelle css e js. Ricaricare con Ctrl+Maiusc+R.
+
 CIGO STUDIO Paint 6.1.7 — Pigmento intenso
 
 Correzione del carboncino e del pastello: deposito più visibile e accumulo con passate successive. Preset carboncino: opacità 90%, flusso 72%; pastello: opacità 82%, flusso 70%. La grana resta attiva.
