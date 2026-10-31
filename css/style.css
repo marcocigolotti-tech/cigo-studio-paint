@@ -42,3 +42,14 @@
 
 /* 6.0.4: opzioni contestuali */
 .shape-options{display:none;border:1px solid #b68a46;border-radius:8px;padding:10px;background:#303b4b;margin:8px 0}.shape-tool-active .shape-options{display:flex}.shape-options label{font-size:14px;font-weight:700;cursor:pointer}.pigment-settings output{font-weight:700;color:#ffce85}.pigment-settings input[type=range]{cursor:pointer}
+
+/* 6.2.6 — menu compatto delle regolazioni artistiche */
+.art-settings-menu{margin:12px 0;border:1px solid #64778d;border-radius:9px;background:#26384b;overflow:hidden}
+.art-settings-menu>summary{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:11px 9px;font-size:12px;font-weight:700;color:#ffce85;list-style:none;user-select:none}
+.art-settings-menu>summary::-webkit-details-marker{display:none}
+.art-settings-menu>summary:focus-visible{outline:2px solid #efbd72;outline-offset:-2px}
+.art-menu-chevron{transition:transform .2s}
+.art-settings-menu[open] .art-menu-chevron{transform:rotate(180deg)}
+.art-settings-body{padding:0 9px 9px;border-top:1px solid #526277}
+.art-settings-body .field{margin:10px 0}
+.art-settings-body .pigment-settings{margin:10px 0}

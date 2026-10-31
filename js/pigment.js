@@ -1,4 +1,4 @@
-// CIGO STUDIO Paint 6.2.4 — motore locale di sfumatura e miscelazione.
+// CIGO STUDIO Paint 6.2.5 — motore locale di sfumatura e miscelazione.
 // Opera esclusivamente sul livello attivo; il progetto resta compatibile.
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const rgb=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
@@ -6,7 +6,7 @@ const rgb=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
 function hsv(c){let r=c[0]/255,g=c[1]/255,b=c[2]/255,max=Math.max(r,g,b),min=Math.min(r,g,b),d=max-min,h=0;if(d){switch(max){case r:h=((g-b)/d)%6;break;case g:h=(b-r)/d+2;break;default:h=(r-g)/d+4}h=(h*60+360)%360}return [h,max?d/max:0,max]}
 function fromHsv(h,s,v){let c=v*s,x=c*(1-Math.abs((h/60)%2-1)),m=v-c,a=[0,0,0];if(h<60)a=[c,x,0];else if(h<120)a=[x,c,0];else if(h<180)a=[0,c,x];else if(h<240)a=[0,x,c];else if(h<300)a=[x,0,c];else a=[c,0,x];return a.map(q=>Math.round((q+m)*255))}
 function mixPigment(old,ink,t){const a=hsv(old),b=hsv(ink);if(a[1]<.07||b[1]<.07)return old.map((v,i)=>Math.round(v*(1-t)+ink[i]*t));let dh=((b[0]-a[0]+540)%360)-180;return fromHsv((a[0]+dh*t+360)%360,a[1]*(1-t)+b[1]*t,a[2]*(1-t)+b[2]*t)}
-export function pigmentStroke(ctx,a,b,{kind,size,strength,softness,color,selection,state=null,grainPreserve=.65}){
+export function pigmentStroke(ctx,a,b,{kind,size,strength,softness,color,selection,state=null,grainPreserve=.65,pickupAmount=.65}){
  const radius=clamp(Math.round(size/2),1,60),step=Math.max(1,radius*.27);
  const distance=Math.hypot(b.x-a.x,b.y-a.y),n=Math.max(1,Math.ceil(distance/step));
  const ink=rgb(color),W=ctx.canvas.width,H=ctx.canvas.height;
@@ -23,8 +23,12 @@ export function pigmentStroke(ctx,a,b,{kind,size,strength,softness,color,selecti
   const ci=(cy*w+cx)*4;
   if(kind==='smudge'){
    const now=[data[ci],data[ci+1],data[ci+2],data[ci+3]];
-   if(!pickup)pickup=now;
-   else for(let c=0;c<4;c++)pickup[c]=pickup[c]*.88+now[c]*.12;
+   // Non caricare colore da una zona trasparente: si evita la scia grigia.
+   if(!pickup && now[3]>6)pickup=now.slice();
+   else if(pickup && now[3]>6){
+    const refresh=.08+(1-clamp(pickupAmount,0,1))*.55;
+    for(let c=0;c<4;c++)pickup[c]=pickup[c]*(1-refresh)+now[c]*refresh;
+   }
   }
   for(let yy=0;yy<h;yy++)for(let xx=0;xx<w;xx++){
    const px=sx+xx,py=sy+yy;
@@ -35,7 +39,8 @@ export function pigmentStroke(ctx,a,b,{kind,size,strength,softness,color,selecti
    const grain=(Math.sin(px*12.9898+py*78.233)*43758.5453)%1;
    const tooth=Math.abs(grain);
    const preserve=kind==='smudge'?1-clamp(grainPreserve,0,1)*(.15+.55*tooth):1;
-   const amt=clamp(strength*edge*(kind==='mixer'?1.0:.65)*preserve,0,.95),i=(yy*w+xx)*4;
+   const pickupFactor=.18+.82*clamp(pickupAmount,0,1);
+   const amt=clamp(strength*edge*(kind==='mixer'?1.0:.65*pickupFactor)*preserve,0,.95),i=(yy*w+xx)*4;
    if(kind==='mixer'){
     // Non dipingere sul vuoto: il miscelatore agisce SOLO sul pigmento esistente.
     const oldA=data[i+3]/255;

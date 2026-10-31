@@ -60,3 +60,11 @@ Nel pannello artistico, scegliere Naturale, Velatura o Fusione. La modalità Fus
 - Su dispositivi Pointer Events che trasmettono tiltX/tiltY, il pastello assume un’impronta più ampia e orientata in base alla penna.
 - La pressione continua a influire sulla quantità e dimensione del deposito.
 - Con mouse o penna senza tilt la resa è identica alla 6.2.2.
+
+
+## Versione 6.2.5 — Carico pigmento dello sfumino
+Nuovo controllo **Carico pigmento sfumino** (0–100%). Modula il trascinamento e il rinnovo del campione cromatico lungo la pennellata. A ogni nuovo tratto il campione viene azzerato; il controllo agisce solo sullo sfumino, non sul miscelatore. Compatibilità `.cigopaint` invariata.
+
+
+## Novità 6.2.6
+Tutti i controlli artistici avanzati (grafite, pastelli, carta, pressione, inclinazione, stabilizzazione e sfumino/miscelatore) sono raccolti nel menu espandibile «Regolazioni artistiche». Il menu è inizialmente chiuso e si apre cliccando sul titolo. Le impostazioni e il motore di disegno sono invariati.
