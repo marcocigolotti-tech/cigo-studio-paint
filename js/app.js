@@ -1,5 +1,5 @@
 
-import {strokeSegment} from './brushes.js?v=628';
+import {strokeSegment} from './brushes.js?v=631';
 import {pigmentStroke} from './pigment.js?v=624';
 import {validateProject} from './project.js?v=601';
 (()=>{'use strict';
@@ -76,9 +76,9 @@ function effectivePressure(e){
  const speed=gesture?.mouseSpeed??0;
  // Velocità in pixel della tela per millisecondo: risposta ampia e percepibile.
  // Curva morbida tra 0.06 (lento) e 1.05 (veloce), senza salti improvvisi.
- const t=Math.max(0,Math.min(1,(speed-.06)/.99));
+ const t=Math.max(0,Math.min(1,(speed-.08)/1.55));
  const eased=t*t*(3-2*t);
- const simulated=1.42-1.17*eased; // lento 1.42, veloce 0.25
+ const simulated=1.8-1.65*eased; // lento 1.80, veloce 0.15
  return 1+(simulated-1)*amount;
 }
 function paintStroke(ctx,a,b,e){ctx.save();clipping(ctx);strokeSegment(ctx,a,b,{tool,color:$('color').value,size:+$('size').value,opacity:gesture?.strokeCanvas?1:+$('opacity').value/100,hardness:+$('hardness').value/100,flow:+$('paintFlow').value/100,grain:+$('paintGrain').value/100,paper:$('paperTexture').value,pastelType:$('pastelType').value,pastelContact:$('pastelContact').value,tiltEffect:+$('penTilt').value/100,tiltX:e?.pointerType==='pen'?e.tiltX||0:0,eraserMode:$('eraserMode').value,tiltY:e?.pointerType==='pen'?e.tiltY||0:0,pressure:effectivePressure(e)});if(mirrorPaint&&['brush','pencil','charcoal','pastel','marker','air','eraser'].includes(tool)){ctx.save();ctx.translate(W,0);ctx.scale(-1,1);strokeSegment(ctx,a,b,{tool,color:$('color').value,size:+$('size').value,opacity:gesture?.strokeCanvas?1:+$('opacity').value/100,hardness:+$('hardness').value/100,flow:+$('paintFlow').value/100,grain:+$('paintGrain').value/100,paper:$('paperTexture').value,pastelType:$('pastelType').value,pastelContact:$('pastelContact').value,tiltEffect:+$('penTilt').value/100,tiltX:e?.pointerType==='pen'?e.tiltX||0:0,eraserMode:$('eraserMode').value,tiltY:e?.pointerType==='pen'?e.tiltY||0:0,pressure:effectivePressure(e)});ctx.restore()}ctx.restore()}

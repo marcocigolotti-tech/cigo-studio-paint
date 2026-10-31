@@ -52,9 +52,9 @@ export function strokeSegment(ctx,a,b,{tool,color,size,opacity,hardness,flow=.65
     const fleck=hash(cellX*13.7+cellY*71.3+j*7.1);
     const edge=Math.pow(Math.max(0,1-Math.abs(offset)/(width*.55)),.6+.7*(1-h));
     const tooth=.24+.76*paper;
-    const coverage=clamp((.32+.64*f)*(.74+.26*power)*edge*(1-g*.60)+.08,0,1);
+    const coverage=clamp((.32+.64*f)*(.35+.65*power)*edge*(1-g*.60)+.08,0,1);
     if(fleck>coverage*tooth)continue;
-    ctx.globalAlpha=alpha*(.16+.35*f)*(.65+.35*power)*(.65+.35*paper);
+    ctx.globalAlpha=alpha*(.16+.35*f)*Math.pow(power,1.5)*(.65+.35*paper);
     const strokeLen=.55+1.1*hash(cellX*5.1+cellY*17.9+j);
     ctx.fillRect(x-.23,y-.23,Math.max(.34,Math.abs(tx)*strokeLen+.25),Math.max(.34,Math.abs(ty)*strokeLen+.25));
    }
@@ -145,7 +145,7 @@ export function strokeSegment(ctx,a,b,{tool,color,size,opacity,hardness,flow=.65
     const coverage=(.68+.30*f)*(1-g*.43)+.12;
     if(tooth>coverage||fiber<g*.20)continue;
     const edge=Math.pow(Math.max(0,1-rad/radius),.35+(1-h)*.85);
-    const alpha=clamp(opacity*(.35+.65*f)*(isCharcoal?.48:.36)*(.52+.48*tooth)*(.42+.58*edge)*pressure,0,.85);
+    const alpha=clamp(opacity*(.35+.65*f)*(isCharcoal?.48:.36)*(.52+.48*tooth)*(.42+.58*edge)*Math.pow(pressure,1.55),0,.95);
     if(alpha<.006)continue;
     ctx.globalAlpha=alpha;
     const speck=cell*(isCharcoal?.95:1.15)*(.75+.65*hash(seed+37));
