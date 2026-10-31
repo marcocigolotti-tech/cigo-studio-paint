@@ -1,4 +1,4 @@
-CIGO STUDIO Paint 6.2.1 — Pastello di punta e di lato
+CIGO STUDIO Paint 6.2.2 — Pastello di punta e di lato
 
 NOVITÀ: menu «Contatto del pastello» (Punta/Lato). La modalità Lato aumenta la larghezza e la grana del tratto per campiture, senza alterare gli altri strumenti. Punta mantiene il comportamento 6.2.0.
 
@@ -40,3 +40,7 @@ Texture del pastello con pori della carta più visibili e granuli più piccoli, 
 
 ## Novità 6.2.0 — Due consistenze del pastello
 Seleziona **Tipo di pastello**: Morbido (coprente e brillante) o Secco (granuloso, con micro-vuoti più visibili). Le gradazioni di grafite e gli altri strumenti restano invariati.
+
+
+## Novità 6.2.2 — sovrapposizione pastelli
+Nel pannello artistico, scegliere Naturale, Velatura o Fusione. La modalità Fusione usa la composizione Canvas `multiply` per una mescolanza ottica (non simula la chimica dei pigmenti). Velatura riduce la copertura del tratto. La modalità scelta viene fissata all’inizio del tratto. Il Miscelatore rimane lo strumento per trascinare e fondere il colore sul livello attivo.
