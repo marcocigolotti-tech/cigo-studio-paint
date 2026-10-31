@@ -1,20 +1,15 @@
-# CIGO STUDIO Paint 6.1.5 — Controllo del tratto
+# CIGO STUDIO Paint 6.1.6 — Texture artistiche
 
-Novità rispetto alla 6.1.4:
-- Stabilizzazione del tratto regolabile da 0 a 85%. A 0% non altera il tratto.
-- Sensibilità alla pressione della penna regolabile, solo su dispositivi compatibili. Il mouse mantiene pressione costante.
-- Il tratto viene completato al rilascio del puntatore.
+Aggiornamento incrementale della versione 6.1.5, destinato a GitHub Pages.
 
-Le gradazioni 2H, HB, 2B, 4B e 6B e le funzioni precedenti restano disponibili.
+## Novità
+- Carboncino e pastello: depositi irregolari su grana di carta deterministica, con maggiore controllo dei bordi.
+- Nuovo selettore **Trama della carta**: Fine, Media, Ruvida.
+- Confermate matite 2H, HB, 2B, 4B e 6B, sfumino, miscelatore, gomma, forme, livelli e testi.
 
-Caricare tutti i file e le cartelle nel repository GitHub Pages. Non caricare il file ZIP come singolo file.
+La texture è simulata nel tratto, non è un'immagine di carta sottostante. Per confrontare le trame usa lo stesso colore e gli stessi parametri su un livello nuovo.
 
-# CIGO STUDIO Paint 6.1.4 — Gradazioni della grafite
+## Pubblicazione
+Carica tutti i file e le cartelle nel repository GitHub Pages, sostituendo la versione precedente. Apri il sito con Ctrl+Maiusc+R.
 
-Aggiornamento incrementale della versione 6.1.2.
-
-- Gradazioni della matita: 2H, HB, 2B, 4B, 6B. La selezione imposta flusso, grana, durezza e opacità; tutti i parametri restano regolabili manualmente.
-- Pressione della penna grafica: già gestita dal motore esistente sui dispositivi che forniscono dati di pressione. Con il mouse la pressione è costante.
-- Gomma, forme piene, sfumino, miscelatore, testo e progetti .cigopaint invariati.
-
-Caricare **tutti** i file e le cartelle sul repository GitHub Pages, non il solo index.html.
+Ideato, progettato e creato dal Prof. Marco Cigolotti · Sviluppato con il supporto dell'intelligenza artificiale · © 2026

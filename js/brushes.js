@@ -1,8 +1,8 @@
-// CIGO STUDIO Paint 6.1.4 — motore pennelli artistici (Canvas 2D, senza librerie).
+// CIGO STUDIO Paint 6.1.6 — motore pennelli artistici (Canvas 2D, senza librerie).
 // Le texture sono generate localmente, non usano immagini esterne.
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 function hash(n){let x=Math.sin(n*127.1+78.233)*43758.5453;return x-Math.floor(x)}
-export function strokeSegment(ctx,a,b,{tool,color,size,opacity,hardness,flow=.65,grain=.55,pressure=1}){
+export function strokeSegment(ctx,a,b,{tool,color,size,opacity,hardness,flow=.65,grain=.55,pressure=1,paper="medium"}){
  const w=Math.max(.5,size*clamp(pressure,.1,1.8)*(tool==='pencil'?.34:tool==='marker'?1.4:1));
  ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=w;
  if(tool==='eraser'){ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();if(Math.hypot(b.x-a.x,b.y-a.y)<.5){ctx.beginPath();ctx.arc(b.x,b.y,w/2,0,Math.PI*2);ctx.fill()}return}
@@ -54,24 +54,34 @@ export function strokeSegment(ctx,a,b,{tool,color,size,opacity,hardness,flow=.65
   return;
  }
  if(tool==='charcoal'||tool==='pastel'){
-  // Una pennellata è composta da minuscoli depositi irregolari: pressione,
-  // flusso e grana cambiano copertura e densità. Passate successive accumulano pigmento.
-  const length=Math.hypot(b.x-a.x,b.y-a.y),spacing=Math.max(.75,w*.105),count=Math.max(1,Math.ceil(length/spacing));
-  const density=tool==='charcoal'?0.72:0.90;
-  const radius=w*.5,grainFactor=clamp(grain,0,1),f=clamp(flow,.01,1);
-  ctx.globalAlpha=clamp(opacity,0,1);
+  // Deposito granulare sulla trama del foglio: il rumore dipende dalle
+  // coordinate assolute, quindi non cambia casualmente a ogni passaggio.
+  const isCharcoal=tool==='charcoal';
+  const d=Math.hypot(b.x-a.x,b.y-a.y);
+  const f=clamp(flow,.01,1),g=clamp(grain,0,1),h=clamp(hardness,0,1);
+  const paperScale=paper==='rough'?0.56:paper==='fine'?2.1:1.05;
+  const radius=Math.max(.6,w*.5),step=Math.max(.75,Math.min(3,radius*.24));
+  const count=Math.max(1,Math.ceil(d/step));
+  const cell=Math.max(.7,Math.min(2.5,radius/13));
   for(let i=0;i<=count;i++){
-   const t=count?i/count:0,cx=a.x+(b.x-a.x)*t,cy=a.y+(b.y-a.y)*t;
-   const particles=Math.min(110,Math.max(8,Math.ceil(w*w*.12*density*f)));
+   const t=i/count,cx=a.x+(b.x-a.x)*t,cy=a.y+(b.y-a.y)*t;
+   const particles=Math.min(145,Math.max(20,Math.ceil(radius*radius*.42*f)));
    for(let j=0;j<particles;j++){
-    const seed=Math.floor(cx*7+cy*11+i*97+j*271),u=hash(seed),v=hash(seed+13);
-    const rad=Math.sqrt(u)*radius,ang=v*Math.PI*2,x=cx+Math.cos(ang)*rad,y=cy+Math.sin(ang)*rad;
-    const texture=hash(Math.floor(x*1.8)*71+Math.floor(y*1.8)*131);
-    if(texture<grainFactor*.58)continue;
-    const edge=clamp((radius-rad)/(radius*.32+.1),.12,1);
-    ctx.globalAlpha=opacity*f*(tool==='charcoal'?.26:.22)*edge;
-    const r=tool==='pastel'?Math.max(.5,w*.055):tool==='charcoal'?Math.max(.4,w*.035):Math.max(.25,w*.018);
-    ctx.fillRect(x-r/2,y-r/2,r,r);
+    const seed=Math.floor(cx*3.7+cy*9.1+i*97+j*131);
+    const rad=Math.sqrt(hash(seed))*radius,ang=hash(seed+13)*Math.PI*2;
+    const x=cx+Math.cos(ang)*rad,y=cy+Math.sin(ang)*rad;
+    const px=Math.floor(x*paperScale),py=Math.floor(y*paperScale);
+    const tooth=hash(px*71.13+py*131.71);
+    const fiber=hash(px*23.71+py*39.37+11);
+    // I solchi della carta restano più chiari; le creste raccolgono pigmento.
+    const coverage=(.55+.43*f)*(1-g*.70)+.07;
+    if(tooth>coverage||fiber<g*.20)continue;
+    const edge=Math.pow(Math.max(0,1-rad/radius),.35+(1-h)*.85);
+    const alpha=clamp(opacity*f*(isCharcoal?.21:.16)*(.30+.70*tooth)*(.30+.70*edge)*pressure,0,.65);
+    if(alpha<.006)continue;
+    ctx.globalAlpha=alpha;
+    const speck=cell*(isCharcoal?.65:1.0)*(.65+.7*hash(seed+37));
+    ctx.fillRect(x-speck/2,y-speck/2,speck,speck*(isCharcoal?.70:1.05));
    }
   }
   ctx.globalAlpha=opacity;
