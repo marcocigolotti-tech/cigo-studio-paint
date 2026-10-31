@@ -1,0 +1,44 @@
+
+:root{color-scheme:dark;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:#121923;color:#eaf0f8}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button,select,input[type=number],input[type=text]{background:#303d50;color:#f3f5fb;border:1px solid #526277;border-radius:7px;padding:7px}button{cursor:pointer}button:hover{background:#455773}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #efbd72}button.active{background:#895a28;border-color:#ffcb7b}button:disabled{opacity:.45;cursor:not-allowed}header{background:#1d2939;padding:11px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}h1{margin:0;color:#ffce85;font-size:20px}header p{margin:3px 0;font-size:12px;color:#b6c8da}.toolbar{display:flex;gap:5px;flex-wrap:wrap;padding:8px;background:#253244;border-bottom:1px solid #4a596d}.app{display:grid;grid-template-columns:218px minmax(200px,1fr)252px;height:calc(100dvh - 161px);min-height:460px}.panel{padding:11px;background:#202d3d;overflow:auto}.panel h2{font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:#f6c789;margin:14px 0 8px}.panel h2:first-child{margin-top:0}.tools{display:grid;grid-template-columns:1fr 1fr;gap:5px}.tools button{font-size:12px;min-height:36px}.field{display:flex;flex-direction:column;gap:5px;margin:11px 0;font-size:12px}.field input[type=range],.field input[type=color],.field select{width:100%}.field input[type=color]{height:38px;padding:2px}.pair{display:flex;align-items:center;gap:6px}.pair>*{min-width:0}.pair input[type=number]{width:78px}.work{background:#414955;overflow:auto;position:relative;display:flex;justify-content:center;align-items:flex-start;padding:35px}.stage{position:relative;flex:none;box-shadow:0 12px 36px #0009;background:#fff;touch-action:none}.stage canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}.stage #overlay{z-index:100;cursor:crosshair}.layer{border:1px solid #526277;border-radius:7px;padding:7px;margin:6px 0;font-size:12px}.layer.selected{border-color:#ffc575;background:#3c4d60}.layerhead{display:flex;align-items:center;gap:5px}.layerhead button{padding:4px 6px}.layerhead strong{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.layer small{display:block;color:#a9b8c9;margin-top:4px}.muted{font-size:12px;color:#b6c8d9}.hide{display:none!important}footer{background:#182434;color:#b8c8d9;font-size:11px;min-height:36px;display:flex;align-items:center;justify-content:space-between;padding:7px 12px;gap:10px;flex-wrap:wrap}#status{color:#f6c789}input[type=range]{accent-color:#e8b66c}#schoolHint{padding:8px;background:#314961;border-radius:8px;font-size:12px;margin-top:10px}.school .advanced{display:none!important}.school .tools button{min-height:47px;font-size:14px}.school .panel{font-size:15px}@media(max-width:850px){.app{grid-template-columns:150px minmax(160px,1fr)170px}.panel{padding:7px}.tools{grid-template-columns:1fr}.toolbar button{font-size:12px;padding:5px}}@media(max-width:620px){.app{display:flex;flex-direction:column;height:auto}.panel{max-height:none}.work{height:420px;order:1}.panel.left{order:0}.panel.right{order:2}.tools{grid-template-columns:repeat(3,1fr)}.work{padding:15px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+/* V5 */
+#brushPresets{display:grid;grid-template-columns:repeat(2,1fr);gap:5px}#brushPresets button{font-size:12px}#brushPresets button.active{border-color:#ffce85}.work{scrollbar-color:#9aa8b9 #313b48}
+
+/* 5.5 — Strumenti raggruppati, menu a comparsa */
+.tools{display:grid;grid-template-columns:1fr;gap:7px;overflow:visible}
+.tool-group{position:relative;min-width:0}
+.tool-group-button{width:100%;min-height:53px;text-align:left;display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;column-gap:5px;align-items:center;padding:7px 9px}
+.tool-group-title{font-size:13px;font-weight:700;grid-column:1}
+.tool-group-current{font-size:11px;color:#cbd7e5;grid-column:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tool-group-arrow{grid-column:2;grid-row:1/3;font-size:16px;color:#ffce85}
+.tool-flyout{position:relative;display:grid;grid-template-columns:1fr;gap:4px;margin-top:4px;padding:6px;background:#152131;border:1px solid #62758d;border-radius:9px;box-shadow:0 7px 18px #0005}
+.tool-flyout[hidden]{display:none!important}
+.tool-flyout button{min-height:34px;text-align:left;font-size:12px}
+.school .tool-group-button{min-height:62px}
+.school .tool-flyout button{min-height:46px;font-size:14px}
+@media(max-width:620px){.tools{grid-template-columns:repeat(2,minmax(0,1fr))}.tool-flyout{position:relative}}
+
+/* 5.6: pannelli a schede per liberare spazio verticale */
+.panel-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;position:sticky;top:-11px;z-index:120;background:#202d3d;padding:4px 0 9px;border-bottom:1px solid #4a596d}
+.panel-tabs button{font-size:11px;padding:8px 2px;white-space:nowrap;min-width:0}
+.panel-tabs button[aria-selected="true"]{background:#895a28;border-color:#ffcb7b;color:#fff;font-weight:700}
+.tab-content[hidden]{display:none!important}
+.tab-content{padding-top:8px}
+.tab-content .pair{flex-wrap:wrap}
+.tab-content .pair button{flex:1 1 auto}
+.tab-content h2{margin-top:13px}
+@media(max-width:850px){.panel-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* 5.8: pannello testo visibile solo con lo strumento Testo */
+.text-settings{display:none;padding:9px;margin:10px 0;border:1px solid #526277;border-radius:9px;background:#26384b}.text-tool-active .text-settings{display:block}.text-settings .field{margin:8px 0}.text-toggle{flex:1;text-align:center;background:#303d50;border:1px solid #526277;border-radius:7px;padding:8px 4px;cursor:pointer}.text-toggle input{vertical-align:middle}.text-settings #editText{width:100%;margin:9px 0 5px}.text-settings small{display:block;line-height:1.4}
+
+/* Editor testuale temporaneo sopra la tela */
+.canvas-text-editor{position:absolute;z-index:999;box-sizing:border-box;padding:5px;background:rgba(255,255,255,.95);border:2px dashed #237ac0;border-radius:4px;resize:both;min-width:140px;min-height:60px;white-space:pre-wrap;overflow:auto;}
+.canvas-text-actions{position:absolute;z-index:1000;display:flex;gap:5px;white-space:nowrap;}
+.canvas-text-actions button{background:#164d72;color:white;border:1px solid #82bbdb;border-radius:5px;padding:6px 10px;cursor:pointer;}
+
+/* 6.0: controlli delle sfumature visibili soltanto per i nuovi strumenti */
+.pigment-settings{display:none;padding:9px;margin:10px 0;border:1px solid #526277;border-radius:9px;background:#26384b}.pigment-settings .field{margin:8px 0}.pigment-settings small{display:block;line-height:1.5}.pigment-tool-active .pigment-settings{display:block}
+
+/* 6.0.4: opzioni contestuali */
+.shape-options{display:none;border:1px solid #b68a46;border-radius:8px;padding:10px;background:#303b4b;margin:8px 0}.shape-tool-active .shape-options{display:flex}.shape-options label{font-size:14px;font-weight:700;cursor:pointer}.pigment-settings output{font-weight:700;color:#ffce85}.pigment-settings input[type=range]{cursor:pointer}
