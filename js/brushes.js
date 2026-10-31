@@ -1,8 +1,8 @@
-// CIGO STUDIO Paint 6.2.0 — motore pennelli artistici (Canvas 2D, senza librerie).
+// CIGO STUDIO Paint 6.2.1 — motore pennelli artistici (Canvas 2D, senza librerie).
 // Le texture sono generate localmente, non usano immagini esterne.
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 function hash(n){let x=Math.sin(n*127.1+78.233)*43758.5453;return x-Math.floor(x)}
-export function strokeSegment(ctx,a,b,{tool,color,size,opacity,hardness,flow=.65,grain=.55,pressure=1,paper="medium",pastelType="soft"}){
+export function strokeSegment(ctx,a,b,{tool,color,size,opacity,hardness,flow=.65,grain=.55,pressure=1,paper="medium",pastelType="soft",pastelContact="tip"}){
  const w=Math.max(.5,size*clamp(pressure,.1,1.8)*(tool==='pencil'?.34:tool==='marker'?1.4:1));
  ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=w;
  if(tool==='eraser'){ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();if(Math.hypot(b.x-a.x,b.y-a.y)<.5){ctx.beginPath();ctx.arc(b.x,b.y,w/2,0,Math.PI*2);ctx.fill()}return}
@@ -59,13 +59,14 @@ export function strokeSegment(ctx,a,b,{tool,color,size,opacity,hardness,flow=.65
   const f=clamp(flow,.01,1),g=clamp(grain,0,1),h=clamp(hardness,0,1);
   const dry=pastelType==='dry';
   const scale=paper==='rough'?.55:paper==='fine'?1.7:.95;
-  const radius=Math.max(1,w*.5),distance=Math.hypot(b.x-a.x,b.y-a.y);
-  const steps=Math.max(1,Math.ceil(distance/Math.max(.8,radius*.17)));
+  const side=pastelContact==='side';
+  const radius=Math.max(1,w*(side?.86:.5)),distance=Math.hypot(b.x-a.x,b.y-a.y);
+  const steps=Math.max(1,Math.ceil(distance/Math.max(.8,radius*(side?.12:.17))));
   const press=clamp(pressure,.12,1.8);
   for(let i=0;i<=steps;i++){
    const t=i/steps,cx=a.x+(b.x-a.x)*t,cy=a.y+(b.y-a.y)*t;
    // Strato morbido e corposo: non crea una riga netta come il pennarello.
-   const deposits=Math.min(500,Math.max(55,Math.round(radius*radius*(1.8+f*2.4)*(dry?.78:1))));
+   const deposits=Math.min(680,Math.max(55,Math.round(radius*radius*(side?1.35:1.8)*(1+f*1.4)*(dry?.78:1))));
    for(let j=0;j<deposits;j++){
     const seed=Math.floor(cx*4.71+cy*9.83+i*193+j*127);
     const rad=Math.sqrt(hash(seed))*radius,ang=hash(seed+17)*Math.PI*2;
@@ -78,12 +79,12 @@ export function strokeSegment(ctx,a,b,{tool,color,size,opacity,hardness,flow=.65
     // La densita' complessiva resta alta, ma i granuli non si fondono in una pellicola liscia.
     const groove=hash(px*19.27+py*37.91+7.4);
     const pore=tooth*.65+groove*.35;
-    const openPores=(paper==='rough'?.32:paper==='fine'?.14:.23)+g*.22+(dry?.13:0);
+    const openPores=(paper==='rough'?.32:paper==='fine'?.14:.23)+g*.22+(dry?.13:0)+(side?.065:0);
     const cover=clamp(.94-g*.14+f*.09+edge*.08-(dry?.14:0),0,1);
     if(pore<openPores || fleck>cover)continue;
     ctx.globalAlpha=clamp(opacity*(dry?.17+.25*f:.21+.34*f)*(.65+.35*edge)*(.72+.28*tooth)*press,0,.92);
     // Granuli piu' piccoli e discontinui: superficie ruvida senza perdere brillantezza.
-    const speck=Math.max(.65,Math.min(dry?1.65:2.25,radius*(dry?.038:.050)))*(.65+.70*hash(seed+31));
+    const speck=Math.max(.65,Math.min(side?2.8:(dry?1.65:2.25),radius*(side?.043:(dry?.038:.050))))*(.65+.70*hash(seed+31));
     ctx.fillRect(x-speck/2,y-speck/2,speck,speck*(.8+.45*hash(seed+41)));
    }
   }

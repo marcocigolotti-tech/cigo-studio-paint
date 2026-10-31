@@ -1,3 +1,7 @@
+CIGO STUDIO Paint 6.2.1 — Pastello di punta e di lato
+
+NOVITÀ: menu «Contatto del pastello» (Punta/Lato). La modalità Lato aumenta la larghezza e la grana del tratto per campiture, senza alterare gli altri strumenti. Punta mantiene il comportamento 6.2.0.
+
 # CIGO STUDIO Paint 6.2.0 — Pastello brillante e corposo
 
 - Pastello con tratto più ampio, pigmento intenso e cromaticamente brillante.
