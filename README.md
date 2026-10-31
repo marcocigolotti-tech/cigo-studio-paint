@@ -13,3 +13,7 @@ Selezionare Matita 4B, pressione simulata 100%, e confrontare due tratti alla st
 
 ## Installazione
 Estrarre lo ZIP e caricare tutti i file nella radice del repository GitHub Pages.
+
+
+## 6.3.2 — Preset personali
+Nel menu Regolazioni artistiche puoi salvare, richiamare ed eliminare fino a 30 configurazioni personali. Sono salvate nel localStorage del browser e non nel progetto .cigopaint.
