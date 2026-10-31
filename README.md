@@ -1,4 +1,4 @@
-# CIGO STUDIO Paint 6.1.8 — Pastello brillante e corposo
+# CIGO STUDIO Paint 6.1.9 — Pastello brillante e corposo
 
 - Pastello con tratto più ampio, pigmento intenso e cromaticamente brillante.
 - Depositi granulari con trama carta fine/media/ruvida e bordi non uniformi.
@@ -28,3 +28,7 @@ La texture è simulata nel tratto, non è un'immagine di carta sottostante. Per 
 Carica tutti i file e le cartelle nel repository GitHub Pages, sostituendo la versione precedente. Apri il sito con Ctrl+Maiusc+R.
 
 Ideato, progettato e creato dal Prof. Marco Cigolotti · Sviluppato con il supporto dell'intelligenza artificiale · © 2026
+
+
+## 6.1.9 — Pastello più granuloso
+Texture del pastello con pori della carta più visibili e granuli più piccoli, mantenendo intensità e brillantezza del colore.

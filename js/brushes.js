@@ -1,4 +1,4 @@
-// CIGO STUDIO Paint 6.1.8 — motore pennelli artistici (Canvas 2D, senza librerie).
+// CIGO STUDIO Paint 6.1.9 — motore pennelli artistici (Canvas 2D, senza librerie).
 // Le texture sono generate localmente, non usano immagini esterne.
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 function hash(n){let x=Math.sin(n*127.1+78.233)*43758.5453;return x-Math.floor(x)}
@@ -57,7 +57,7 @@ export function strokeSegment(ctx,a,b,{tool,color,size,opacity,hardness,flow=.65
   // Pastello spesso: pigmento cromaticamente pieno, bordi morbidi e grana visibile.
   // Il colore originale non viene schiarito o desaturato: è la copertura a variare.
   const f=clamp(flow,.01,1),g=clamp(grain,0,1),h=clamp(hardness,0,1);
-  const scale=paper==='rough'?.68:paper==='fine'?2.0:1.15;
+  const scale=paper==='rough'?.55:paper==='fine'?1.7:.95;
   const radius=Math.max(1,w*.5),distance=Math.hypot(b.x-a.x,b.y-a.y);
   const steps=Math.max(1,Math.ceil(distance/Math.max(.8,radius*.17)));
   const press=clamp(pressure,.12,1.8);
@@ -73,10 +73,16 @@ export function strokeSegment(ctx,a,b,{tool,color,size,opacity,hardness,flow=.65
     const tooth=hash(px*73.17+py*113.81),fleck=hash(px*17.31+py*41.71+j*3.19);
     const edge=Math.pow(Math.max(0,1-rad/radius),.28+(1-h)*.6);
     // Parte della trama resta scoperta, soprattutto con grana ruvida.
-    const cover=clamp(.95-g*.27+f*.13+edge*.10,0,1);
-    if(fleck>cover || tooth<g*.10)continue;
-    ctx.globalAlpha=clamp(opacity*(.19+.33*f)*(.60+.40*edge)*(.68+.32*tooth)*press,0,.9);
-    const speck=Math.max(.85,Math.min(3.4,radius*.075))*(.8+.6*hash(seed+31));
+    // Carta piu' evidente: micro-vuoti stabili nelle valli della trama.
+    // La densita' complessiva resta alta, ma i granuli non si fondono in una pellicola liscia.
+    const groove=hash(px*19.27+py*37.91+7.4);
+    const pore=tooth*.65+groove*.35;
+    const openPores=(paper==='rough'?.32:paper==='fine'?.14:.23)+g*.22;
+    const cover=clamp(.94-g*.14+f*.09+edge*.08,0,1);
+    if(pore<openPores || fleck>cover)continue;
+    ctx.globalAlpha=clamp(opacity*(.21+.34*f)*(.65+.35*edge)*(.72+.28*tooth)*press,0,.92);
+    // Granuli piu' piccoli e discontinui: superficie ruvida senza perdere brillantezza.
+    const speck=Math.max(.65,Math.min(2.25,radius*.050))*(.65+.70*hash(seed+31));
     ctx.fillRect(x-speck/2,y-speck/2,speck,speck*(.8+.45*hash(seed+41)));
    }
   }
