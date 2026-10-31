@@ -1,11 +1,33 @@
-// CIGO STUDIO Paint 6.2.2 — motore pennelli artistici (Canvas 2D, senza librerie).
+// CIGO STUDIO Paint 6.2.7 — motore pennelli artistici (Canvas 2D, senza librerie).
 // Le texture sono generate localmente, non usano immagini esterne.
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 function hash(n){let x=Math.sin(n*127.1+78.233)*43758.5453;return x-Math.floor(x)}
-export function strokeSegment(ctx,a,b,{tool,color,size,opacity,hardness,flow=.65,grain=.55,pressure=1,paper="medium",pastelType="soft",pastelContact="tip",tiltEffect=0,tiltX=0,tiltY=0}){
+export function strokeSegment(ctx,a,b,{tool,color,size,opacity,hardness,flow=.65,grain=.55,pressure=1,paper="medium",pastelType="soft",pastelContact="tip",tiltEffect=0,tiltX=0,tiltY=0,eraserMode="normal"}){
  const w=Math.max(.5,size*clamp(pressure,.1,1.8)*(tool==='pencil'?.34:tool==='marker'?1.4:1));
  ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=w;
- if(tool==='eraser'){ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();if(Math.hypot(b.x-a.x,b.y-a.y)<.5){ctx.beginPath();ctx.arc(b.x,b.y,w/2,0,Math.PI*2);ctx.fill()}return}
+ if(tool==='eraser'){
+  ctx.globalCompositeOperation='source-over';
+  if(eraserMode==='normal'){
+   ctx.globalAlpha=1;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
+   if(Math.hypot(b.x-a.x,b.y-a.y)<.5){ctx.beginPath();ctx.arc(b.x,b.y,w/2,0,Math.PI*2);ctx.fill()}
+  }else{
+   // Maschera di cancellazione: la trasparenza diventa una cancellazione parziale
+   // soltanto al momento della composizione sul livello attivo.
+   const len=Math.hypot(b.x-a.x,b.y-a.y),step=Math.max(1,w*.14),n=Math.max(1,Math.ceil(len/step));
+   const rings=eraserMode==='kneaded'?5:9;
+   for(let i=0;i<=n;i++){
+    const t=i/n,x=a.x+(b.x-a.x)*t,y=a.y+(b.y-a.y)*t;
+    for(let j=rings;j>=1;j--){
+     const frac=j/rings,rad=w*.5*frac;
+     const strength=eraserMode==='kneaded'?.045:.12;
+     const fade=eraserMode==='kneaded'?(.4+.6*(1-frac)):Math.pow(1-frac,1.3);
+     ctx.globalAlpha=strength*fade;
+     ctx.beginPath();ctx.arc(x,y,rad,0,Math.PI*2);ctx.fill();
+    }
+   }
+  }
+  ctx.globalAlpha=1;return;
+ }
  if(tool==='pencil'){
   // Grafite: nessun nucleo opaco e uniforme (effetto pennarello).
   // Fibre longitudinali discontinue + microdepositi su una trama di carta stabile.

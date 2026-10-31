@@ -1,17 +1,17 @@
-CIGO STUDIO Paint 6.2.4 — Sfumino a grana controllata
+CIGO STUDIO Paint 6.2.7 — Sfumino a grana controllata
 
 - Nuovo controllo Conservazione grana (0–100%, default 65%).
 - Il campione di colore trascinato dallo sfumino resta continuo durante l’intero gesto, anche tra eventi del puntatore.
 - Intensità e morbidezza esistenti mantenute; il Miscelatore resta indipendente.
-- Tutte le altre funzioni della 6.2.3 conservate.
+- Tutte le altre funzioni della 6.2.7 conservate.
 
 Nota: lo sfumino agisce sui pigmenti del livello attivo, non su altri livelli.
 
-CIGO STUDIO Paint 6.2.2 — Pastello di punta e di lato
+CIGO STUDIO Paint 6.2.7 — Pastello di punta e di lato
 
-NOVITÀ: menu «Contatto del pastello» (Punta/Lato). La modalità Lato aumenta la larghezza e la grana del tratto per campiture, senza alterare gli altri strumenti. Punta mantiene il comportamento 6.2.0.
+NOVITÀ: menu «Contatto del pastello» (Punta/Lato). La modalità Lato aumenta la larghezza e la grana del tratto per campiture, senza alterare gli altri strumenti. Punta mantiene il comportamento 6.2.7.
 
-# CIGO STUDIO Paint 6.2.0 — Pastello brillante e corposo
+# CIGO STUDIO Paint 6.2.7 — Pastello brillante e corposo
 
 - Pastello con tratto più ampio, pigmento intenso e cromaticamente brillante.
 - Depositi granulari con trama carta fine/media/ruvida e bordi non uniformi.
@@ -43,28 +43,32 @@ Carica tutti i file e le cartelle nel repository GitHub Pages, sostituendo la ve
 Ideato, progettato e creato dal Prof. Marco Cigolotti · Sviluppato con il supporto dell'intelligenza artificiale · © 2026
 
 
-## 6.2.0 — Pastello più granuloso
+## 6.2.7 — Pastello più granuloso
 Texture del pastello con pori della carta più visibili e granuli più piccoli, mantenendo intensità e brillantezza del colore.
 
 
-## Novità 6.2.0 — Due consistenze del pastello
+## Novità 6.2.7 — Due consistenze del pastello
 Seleziona **Tipo di pastello**: Morbido (coprente e brillante) o Secco (granuloso, con micro-vuoti più visibili). Le gradazioni di grafite e gli altri strumenti restano invariati.
 
 
-## Novità 6.2.2 — sovrapposizione pastelli
+## Novità 6.2.7 — sovrapposizione pastelli
 Nel pannello artistico, scegliere Naturale, Velatura o Fusione. La modalità Fusione usa la composizione Canvas `multiply` per una mescolanza ottica (non simula la chimica dei pigmenti). Velatura riduce la copertura del tratto. La modalità scelta viene fissata all’inizio del tratto. Il Miscelatore rimane lo strumento per trascinare e fondere il colore sul livello attivo.
 
 
-## Novità 6.2.3 — Inclinazione pastello
+## Novità 6.2.7 — Inclinazione pastello
 - Nuovo cursore Effetto inclinazione penna (0–100%).
 - Su dispositivi Pointer Events che trasmettono tiltX/tiltY, il pastello assume un’impronta più ampia e orientata in base alla penna.
 - La pressione continua a influire sulla quantità e dimensione del deposito.
-- Con mouse o penna senza tilt la resa è identica alla 6.2.2.
+- Con mouse o penna senza tilt la resa è identica alla 6.2.7.
 
 
-## Versione 6.2.5 — Carico pigmento dello sfumino
+## Versione 6.2.7 — Carico pigmento dello sfumino
 Nuovo controllo **Carico pigmento sfumino** (0–100%). Modula il trascinamento e il rinnovo del campione cromatico lungo la pennellata. A ogni nuovo tratto il campione viene azzerato; il controllo agisce solo sullo sfumino, non sul miscelatore. Compatibilità `.cigopaint` invariata.
 
 
-## Novità 6.2.6
+## Novità 6.2.7
 Tutti i controlli artistici avanzati (grafite, pastelli, carta, pressione, inclinazione, stabilizzazione e sfumino/miscelatore) sono raccolti nel menu espandibile «Regolazioni artistiche». Il menu è inizialmente chiuso e si apre cliccando sul titolo. Le impostazioni e il motore di disegno sono invariati.
+
+
+## Novità 6.2.7 — Gomme artistiche
+Nel menu Regolazioni artistiche: Gomma classica, Morbida e Pane. Le gomme agiscono sul livello attivo; per alleggerire gradualmente il pigmento, usare Pane e ripassare.
