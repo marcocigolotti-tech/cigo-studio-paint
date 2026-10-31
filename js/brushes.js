@@ -2,7 +2,7 @@
 // Le texture sono generate localmente, non usano immagini esterne.
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 function hash(n){let x=Math.sin(n*127.1+78.233)*43758.5453;return x-Math.floor(x)}
-export function strokeSegment(ctx,a,b,{tool,color,size,opacity,hardness,flow=.65,grain=.55,pressure=1,paper="medium",pastelType="soft",pastelContact="tip"}){
+export function strokeSegment(ctx,a,b,{tool,color,size,opacity,hardness,flow=.65,grain=.55,pressure=1,paper="medium",pastelType="soft",pastelContact="tip",tiltEffect=0,tiltX=0,tiltY=0}){
  const w=Math.max(.5,size*clamp(pressure,.1,1.8)*(tool==='pencil'?.34:tool==='marker'?1.4:1));
  ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=w;
  if(tool==='eraser'){ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();if(Math.hypot(b.x-a.x,b.y-a.y)<.5){ctx.beginPath();ctx.arc(b.x,b.y,w/2,0,Math.PI*2);ctx.fill()}return}
@@ -60,7 +60,12 @@ export function strokeSegment(ctx,a,b,{tool,color,size,opacity,hardness,flow=.65
   const dry=pastelType==='dry';
   const scale=paper==='rough'?.55:paper==='fine'?1.7:.95;
   const side=pastelContact==='side';
-  const radius=Math.max(1,w*(side?.86:.5)),distance=Math.hypot(b.x-a.x,b.y-a.y);
+  // L'inclinazione e' disponibile solo con una penna grafica che trasmette tiltX/tiltY.
+  const tiltAmount=clamp(Math.hypot(tiltX,tiltY)/75,0,1)*clamp(tiltEffect,0,1);
+  const tiltAngle=Math.atan2(tiltY,tiltX);
+  const tiltStretch=1+tiltAmount*(side?.8:1.15);
+  const tiltSquash=1-tiltAmount*.22;
+  const radius=Math.max(1,w*(side?.86:.5)*(1+tiltAmount*.22)),distance=Math.hypot(b.x-a.x,b.y-a.y);
   const steps=Math.max(1,Math.ceil(distance/Math.max(.8,radius*(side?.12:.17))));
   const press=clamp(pressure,.12,1.8);
   for(let i=0;i<=steps;i++){
@@ -70,7 +75,10 @@ export function strokeSegment(ctx,a,b,{tool,color,size,opacity,hardness,flow=.65
    for(let j=0;j<deposits;j++){
     const seed=Math.floor(cx*4.71+cy*9.83+i*193+j*127);
     const rad=Math.sqrt(hash(seed))*radius,ang=hash(seed+17)*Math.PI*2;
-    const x=cx+Math.cos(ang)*rad,y=cy+Math.sin(ang)*rad;
+    const ux=Math.cos(ang)*rad,uy=Math.sin(ang)*rad;
+    const ct=Math.cos(tiltAngle),st=Math.sin(tiltAngle);
+    const x=cx+(ux*ct-uy*st)*tiltStretch*ct-(ux*st+uy*ct)*tiltSquash*st;
+    const y=cy+(ux*ct-uy*st)*tiltStretch*st+(ux*st+uy*ct)*tiltSquash*ct;
     const px=Math.floor(x*scale),py=Math.floor(y*scale);
     const tooth=hash(px*73.17+py*113.81),fleck=hash(px*17.31+py*41.71+j*3.19);
     const edge=Math.pow(Math.max(0,1-rad/radius),.28+(1-h)*.6);

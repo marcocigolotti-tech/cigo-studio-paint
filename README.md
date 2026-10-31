@@ -44,3 +44,10 @@ Seleziona **Tipo di pastello**: Morbido (coprente e brillante) o Secco (granulos
 
 ## Novità 6.2.2 — sovrapposizione pastelli
 Nel pannello artistico, scegliere Naturale, Velatura o Fusione. La modalità Fusione usa la composizione Canvas `multiply` per una mescolanza ottica (non simula la chimica dei pigmenti). Velatura riduce la copertura del tratto. La modalità scelta viene fissata all’inizio del tratto. Il Miscelatore rimane lo strumento per trascinare e fondere il colore sul livello attivo.
+
+
+## Novità 6.2.3 — Inclinazione pastello
+- Nuovo cursore Effetto inclinazione penna (0–100%).
+- Su dispositivi Pointer Events che trasmettono tiltX/tiltY, il pastello assume un’impronta più ampia e orientata in base alla penna.
+- La pressione continua a influire sulla quantità e dimensione del deposito.
+- Con mouse o penna senza tilt la resa è identica alla 6.2.2.
