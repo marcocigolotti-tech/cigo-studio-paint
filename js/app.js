@@ -165,6 +165,18 @@ overlay.addEventListener('dblclick',e=>{if(tool!=='text')return;const i=textLaye
 $('editText').onclick=()=>current().textData?editTextInline():editText();
 $('textLineHeight').oninput=e=>$('textLineHeightLabel').textContent=e.target.value+'%';
 $('mousePressure').addEventListener('input',e=>$('mousePressureLabel').textContent=e.target.value+'%');
+// Profili rapidi: non alterano il motore, impostano il controllo già collaudato.
+const pressureButtons=[...document.querySelectorAll('[data-mouse-pressure]')];
+function updateMousePressurePreset(){
+ const value=Number($('mousePressure').value);
+ for(const b of pressureButtons){const selected=Number(b.dataset.mousePressure)===value;b.setAttribute('aria-pressed',String(selected));b.classList.toggle('selected',selected)}
+}
+for(const b of pressureButtons)b.addEventListener('click',()=>{
+ $('mousePressure').value=b.dataset.mousePressure;
+ $('mousePressure').dispatchEvent(new Event('input',{bubbles:true}));
+});
+$('mousePressure').addEventListener('input',updateMousePressurePreset);
+updateMousePressurePreset();
 function pointerDown(e){if(e.button!==0&&e.pointerType==='mouse')return;let p=pos(e);if(tool==='pick'){let d=flatten().getContext('2d').getImageData(Math.min(W-1,p.x|0),Math.min(H-1,p.y|0),1,1).data;$('color').value='#'+[d[0],d[1],d[2]].map(x=>x.toString(16).padStart(2,'0')).join('');say('Colore prelevato');return}if(tool==='text'){const hit=textLayerAt(p);if(hit>=0){active=hit;layersUI();setTextControls(current().textData);say('Testo selezionato: doppio clic per modificarlo');return}if(current().locked){say('Livello bloccato');return}const t=prompt('Scrivi il testo (puoi modificarlo in seguito)');if(t&&t.trim()){const l=layer('Testo: '+t.trim().slice(0,25));l.textData={...textSettings(),text:t.slice(0,4000),x:p.x,y:p.y};drawTextLayer(l);layers.splice(active+1,0,l);active++;commit('Livello di testo aggiunto')}return}if(tool==='fill'){if(current().locked){say('Livello bloccato');return}try{if(floodFill(current().canvas,p.x,p.y,$('color').value))commit('Riempimento')}catch(err){alert('Riempimento non disponibile: '+err.message)}return}if(tool!=='hand'&&tool!=='select'&&current().locked){say('Sblocca il livello per modificarlo');return}overlay.setPointerCapture(e.pointerId);gesture={kind:tool,pointerId:e.pointerId,strokeCanvas:null,strokeOpacity:1,pastelOverlay:$('pastelOverlay').value,start:p,prev:p,originX:work.scrollLeft,originY:work.scrollTop,clientX:e.clientX,clientY:e.clientY,base:null,moved:false,smudgeState:{pickup:null},mouseSpeed:0,mouseLastTime:e.timeStamp};if(['smudge','mixer'].includes(tool)){pigmentMove(p,p)}if(tool==='move'){gesture.base=canvas();gesture.base.getContext('2d').drawImage(current().canvas,0,0)}if(['brush','pencil','charcoal','pastel','marker','air','eraser'].includes(tool)){gesture.strokeCanvas=canvas();gesture.strokeOpacity=tool==='eraser'&&$('eraserMode').value==='normal'?1:+$('opacity').value/100;paintStroke(gesture.strokeCanvas.getContext('2d'),p,p,e);previewStroke()}}
 function pointerMove(e){if(!gesture||e.pointerId!==gesture.pointerId)return;let p=pos(e),g=gesture;g.moved=true;
  if(e.pointerType==='mouse'&&['pencil','charcoal','pastel'].includes(tool)){

@@ -53,3 +53,8 @@
 .art-settings-body{padding:0 9px 9px;border-top:1px solid #526277}
 .art-settings-body .field{margin:10px 0}
 .art-settings-body .pigment-settings{margin:10px 0}
+
+/* 6.3.0 — profili rapidi pressione mouse */
+.mouse-pressure-presets{display:flex;gap:5px;flex-wrap:wrap;margin:6px 0 10px}
+.mouse-pressure-presets button{flex:1 1 auto;padding:7px 6px;font-size:12px;cursor:pointer;border:1px solid #64748b;border-radius:6px}
+.mouse-pressure-presets button.selected{outline:2px solid #38bdf8;outline-offset:1px;font-weight:700}
