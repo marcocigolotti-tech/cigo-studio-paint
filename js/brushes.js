@@ -1,4 +1,4 @@
-// CIGO STUDIO Paint 6.1.6 — motore pennelli artistici (Canvas 2D, senza librerie).
+// CIGO STUDIO Paint 6.1.7 — motore pennelli artistici (Canvas 2D, senza librerie).
 // Le texture sono generate localmente, non usano immagini esterne.
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 function hash(n){let x=Math.sin(n*127.1+78.233)*43758.5453;return x-Math.floor(x)}
@@ -65,7 +65,7 @@ export function strokeSegment(ctx,a,b,{tool,color,size,opacity,hardness,flow=.65
   const cell=Math.max(.7,Math.min(2.5,radius/13));
   for(let i=0;i<=count;i++){
    const t=i/count,cx=a.x+(b.x-a.x)*t,cy=a.y+(b.y-a.y)*t;
-   const particles=Math.min(145,Math.max(20,Math.ceil(radius*radius*.42*f)));
+   const particles=Math.min(145,Math.max(20,Math.ceil(radius*radius*(isCharcoal?1.18:1.00)*(.45+.55*f))));
    for(let j=0;j<particles;j++){
     const seed=Math.floor(cx*3.7+cy*9.1+i*97+j*131);
     const rad=Math.sqrt(hash(seed))*radius,ang=hash(seed+13)*Math.PI*2;
@@ -74,13 +74,13 @@ export function strokeSegment(ctx,a,b,{tool,color,size,opacity,hardness,flow=.65
     const tooth=hash(px*71.13+py*131.71);
     const fiber=hash(px*23.71+py*39.37+11);
     // I solchi della carta restano più chiari; le creste raccolgono pigmento.
-    const coverage=(.55+.43*f)*(1-g*.70)+.07;
+    const coverage=(.68+.30*f)*(1-g*.43)+.12;
     if(tooth>coverage||fiber<g*.20)continue;
     const edge=Math.pow(Math.max(0,1-rad/radius),.35+(1-h)*.85);
-    const alpha=clamp(opacity*f*(isCharcoal?.21:.16)*(.30+.70*tooth)*(.30+.70*edge)*pressure,0,.65);
+    const alpha=clamp(opacity*(.35+.65*f)*(isCharcoal?.48:.36)*(.52+.48*tooth)*(.42+.58*edge)*pressure,0,.85);
     if(alpha<.006)continue;
     ctx.globalAlpha=alpha;
-    const speck=cell*(isCharcoal?.65:1.0)*(.65+.7*hash(seed+37));
+    const speck=cell*(isCharcoal?.95:1.15)*(.75+.65*hash(seed+37));
     ctx.fillRect(x-speck/2,y-speck/2,speck,speck*(isCharcoal?.70:1.05));
    }
   }

@@ -1,3 +1,7 @@
+CIGO STUDIO Paint 6.1.7 — Pigmento intenso
+
+Correzione del carboncino e del pastello: deposito più visibile e accumulo con passate successive. Preset carboncino: opacità 90%, flusso 72%; pastello: opacità 82%, flusso 70%. La grana resta attiva.
+
 # CIGO STUDIO Paint 6.1.6 — Texture artistiche
 
 Aggiornamento incrementale della versione 6.1.5, destinato a GitHub Pages.
