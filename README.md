@@ -1,3 +1,12 @@
+CIGO STUDIO Paint 6.2.4 — Sfumino a grana controllata
+
+- Nuovo controllo Conservazione grana (0–100%, default 65%).
+- Il campione di colore trascinato dallo sfumino resta continuo durante l’intero gesto, anche tra eventi del puntatore.
+- Intensità e morbidezza esistenti mantenute; il Miscelatore resta indipendente.
+- Tutte le altre funzioni della 6.2.3 conservate.
+
+Nota: lo sfumino agisce sui pigmenti del livello attivo, non su altri livelli.
+
 CIGO STUDIO Paint 6.2.2 — Pastello di punta e di lato
 
 NOVITÀ: menu «Contatto del pastello» (Punta/Lato). La modalità Lato aumenta la larghezza e la grana del tratto per campiture, senza alterare gli altri strumenti. Punta mantiene il comportamento 6.2.0.
