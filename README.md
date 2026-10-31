@@ -74,5 +74,9 @@ Tutti i controlli artistici avanzati (grafite, pastelli, carta, pressione, incli
 Nel menu Regolazioni artistiche: Gomma classica, Morbida e Pane. Le gomme agiscono sul livello attivo; per alleggerire gradualmente il pigmento, usare Pane e ripassare.
 
 
-## Versione 6.2.8 — pressione simulata con mouse
+## Versione 6.2.9 — pressione simulata con mouse
 Nel menu Regolazioni artistiche è disponibile un controllo 0–100% per matita, carboncino e pastello. A 0% il comportamento è identico alla 6.2.7; a valori superiori la velocità del mouse modula la pressione simulata. La pressione della tavoletta grafica resta indipendente.
+
+
+## 6.2.9 — Pressione simulata più evidente
+Curva di pressione simulata con maggiore escursione (0,25–1,42), interpolata con il cursore. A 0% il comportamento è identico alla 6.2.8.

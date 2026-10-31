@@ -74,8 +74,12 @@ function effectivePressure(e){
  if(!amount||!['pencil','charcoal','pastel'].includes(tool)||e?.pointerType!=='mouse')return 1;
  // La velocità è filtrata nel gesto: il mouse non trasmette una pressione reale.
  const speed=gesture?.mouseSpeed??0;
- const slow=1/(1+speed/0.55);
- return Math.max(.2,1-amount*.75*(1-slow));
+ // Velocità in pixel della tela per millisecondo: risposta ampia e percepibile.
+ // Curva morbida tra 0.06 (lento) e 1.05 (veloce), senza salti improvvisi.
+ const t=Math.max(0,Math.min(1,(speed-.06)/.99));
+ const eased=t*t*(3-2*t);
+ const simulated=1.42-1.17*eased; // lento 1.42, veloce 0.25
+ return 1+(simulated-1)*amount;
 }
 function paintStroke(ctx,a,b,e){ctx.save();clipping(ctx);strokeSegment(ctx,a,b,{tool,color:$('color').value,size:+$('size').value,opacity:gesture?.strokeCanvas?1:+$('opacity').value/100,hardness:+$('hardness').value/100,flow:+$('paintFlow').value/100,grain:+$('paintGrain').value/100,paper:$('paperTexture').value,pastelType:$('pastelType').value,pastelContact:$('pastelContact').value,tiltEffect:+$('penTilt').value/100,tiltX:e?.pointerType==='pen'?e.tiltX||0:0,eraserMode:$('eraserMode').value,tiltY:e?.pointerType==='pen'?e.tiltY||0:0,pressure:effectivePressure(e)});if(mirrorPaint&&['brush','pencil','charcoal','pastel','marker','air','eraser'].includes(tool)){ctx.save();ctx.translate(W,0);ctx.scale(-1,1);strokeSegment(ctx,a,b,{tool,color:$('color').value,size:+$('size').value,opacity:gesture?.strokeCanvas?1:+$('opacity').value/100,hardness:+$('hardness').value/100,flow:+$('paintFlow').value/100,grain:+$('paintGrain').value/100,paper:$('paperTexture').value,pastelType:$('pastelType').value,pastelContact:$('pastelContact').value,tiltEffect:+$('penTilt').value/100,tiltX:e?.pointerType==='pen'?e.tiltX||0:0,eraserMode:$('eraserMode').value,tiltY:e?.pointerType==='pen'?e.tiltY||0:0,pressure:effectivePressure(e)});ctx.restore()}ctx.restore()}
 function pigmentMove(a,b){
@@ -166,7 +170,7 @@ function pointerMove(e){if(!gesture||e.pointerId!==gesture.pointerId)return;let 
  if(e.pointerType==='mouse'&&['pencil','charcoal','pastel'].includes(tool)){
   const dt=Math.max(1,Math.min(100,e.timeStamp-(g.mouseLastTime??e.timeStamp)));
   const instantaneous=Math.min(5,Math.hypot(p.x-g.prev.x,p.y-g.prev.y)/dt);
-  g.mouseSpeed=(g.mouseSpeed??0)*.72+instantaneous*.28;
+  g.mouseSpeed=(g.mouseSpeed??0)*.48+instantaneous*.52;
   g.mouseLastTime=e.timeStamp;
  }
  if(tool==='hand'){work.scrollLeft=g.originX-(e.clientX-g.clientX);work.scrollTop=g.originY-(e.clientY-g.clientY)}else if(['brush','pencil','charcoal','pastel','marker','air','eraser'].includes(tool)){
