@@ -1,5 +1,5 @@
-CIGO STUDIO Paint 6.3.5 — Simmetria radiale.
+CIGO STUDIO Paint 6.3.6 — Centro di simmetria spostabile.
 
-Novità: 4, 6, 8 o 12 settori. Attivare Disegno simmetrico, scegliere Radiale nel menu Asse di simmetria e impostare il numero di settori. I tratti sono ruotati intorno al centro della tela. Sono conservate le modalità verticale, orizzontale ed entrambe.
+Attiva Disegno simmetrico, scegli la modalità, premi Sposta centro e trascina il mirino sulla tela. Premi ancora Sposta centro per tornare a disegnare. Ricentra ripristina il centro geometrico. Il mirino e gli assi sono guide non esportate.
 
-Aprire index.html o pubblicare tutti i file su GitHub Pages.
+Per installare su GitHub Pages carica tutti i file mantenendo le cartelle css e js.
