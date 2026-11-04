@@ -1,9 +1,7 @@
-CIGO STUDIO Paint 6.3.8 — Logo nell’intestazione
+# CIGO STUDIO Paint 6.3.9 — Guida integrata
 
-Basata sulla versione 6.3.7 collaudata. Sostituita l’emoji tavolozza con il logo originale fornito dall’utente, accanto al nome CIGO STUDIO Paint. Nessuna modifica agli strumenti o al motore di disegno.
+Versione derivata dalla 6.3.8 Logo Integrato.
 
-Per pubblicare su GitHub Pages caricare tutti i file e le cartelle, incluso logo.png, nella radice del sito.
+Novità: pulsante «? Guida» apre un manuale navigabile nel programma, con 10 sezioni: primi passi, strumenti, regolazioni, livelli, simmetria, testo e forme, immagini, salvataggio, scorciatoie e risoluzione dei problemi. Chiudibile con Esc, pulsante o clic esterno. Nessuna modifica intenzionale al motore di disegno.
 
-Logo sostituito con immagine trasparente fornita nella conversazione; versione applicativa invariata 6.3.8.
-
-Correzione logo: rimosso sfondo bianco CSS e allineato al colore esatto dell’intestazione (#1d2939). Nessuna modifica al motore di disegno.
+Per GitHub Pages caricare tutto il contenuto dello ZIP nella radice del repository.
