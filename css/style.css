@@ -58,3 +58,9 @@
 .mouse-pressure-presets{display:flex;gap:5px;flex-wrap:wrap;margin:6px 0 10px}
 .mouse-pressure-presets button{flex:1 1 auto;padding:7px 6px;font-size:12px;cursor:pointer;border:1px solid #64748b;border-radius:6px}
 .mouse-pressure-presets button.selected{outline:2px solid #38bdf8;outline-offset:1px;font-weight:700}
+
+/* 6.3.7 — Sezione compatta Simmetria e guide */
+.guide-settings-menu .art-settings-body{padding:5px 9px 12px}
+.guide-settings-menu .art-settings-body>.field{margin-top:10px}
+.guide-settings-menu .art-settings-body .pair{display:flex;gap:6px;flex-wrap:wrap}
+.guide-settings-menu .art-settings-body .pair button{flex:1;min-width:0}

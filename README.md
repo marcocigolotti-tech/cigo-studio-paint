@@ -1,5 +1,10 @@
-CIGO STUDIO Paint 6.3.6 — Centro di simmetria spostabile.
+# CIGO STUDIO Paint 6.3.7 — Simmetria e guide
 
-Attiva Disegno simmetrico, scegli la modalità, premi Sposta centro e trascina il mirino sulla tela. Premi ancora Sposta centro per tornare a disegnare. Ricentra ripristina il centro geometrico. Il mirino e gli assi sono guide non esportate.
+Aggiornamento dell’interfaccia dalla versione 6.3.6.
 
-Per installare su GitHub Pages carica tutti i file mantenendo le cartelle css e js.
+- Griglia, simmetria, asse, settori radiali, spostamento e ricentramento raccolti nel menu espandibile **✥ Simmetria e guide**.
+- Menu inizialmente chiuso, apribile con clic sul titolo.
+- ID dei controlli e logica del motore di disegno invariati.
+- Titolo e numero di versione aggiornati.
+
+Per GitHub Pages caricare il contenuto dello ZIP nella radice del repository.
