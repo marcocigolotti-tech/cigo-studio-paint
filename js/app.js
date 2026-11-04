@@ -81,7 +81,27 @@ function effectivePressure(e){
  const simulated=1.8-1.65*eased; // lento 1.80, veloce 0.15
  return 1+(simulated-1)*amount;
 }
-function paintStroke(ctx,a,b,e){ctx.save();clipping(ctx);strokeSegment(ctx,a,b,{tool,color:$('color').value,size:+$('size').value,opacity:gesture?.strokeCanvas?1:+$('opacity').value/100,hardness:+$('hardness').value/100,flow:+$('paintFlow').value/100,grain:+$('paintGrain').value/100,paper:$('paperTexture').value,pastelType:$('pastelType').value,pastelContact:$('pastelContact').value,tiltEffect:+$('penTilt').value/100,tiltX:e?.pointerType==='pen'?e.tiltX||0:0,eraserMode:$('eraserMode').value,tiltY:e?.pointerType==='pen'?e.tiltY||0:0,pressure:effectivePressure(e)});if(mirrorPaint&&['brush','pencil','charcoal','pastel','marker','air','eraser'].includes(tool)){const drawMirror=(horizontal,vertical)=>{ctx.save();ctx.translate(horizontal?W:0,vertical?H:0);ctx.scale(horizontal?-1:1,vertical?-1:1);ctx.restore()};if(mirrorAxis==='vertical'||mirrorAxis==='both')drawMirror(true,false);if(mirrorAxis==='horizontal'||mirrorAxis==='both')drawMirror(false,true);if(mirrorAxis==='both')drawMirror(true,true)}ctx.restore()}
+function paintStroke(ctx,a,b,e){
+ ctx.save();
+ clipping(ctx);
+ const options={tool,color:$('color').value,size:+$('size').value,opacity:gesture?.strokeCanvas?1:+$('opacity').value/100,hardness:+$('hardness').value/100,flow:+$('paintFlow').value/100,grain:+$('paintGrain').value/100,paper:$('paperTexture').value,pastelType:$('pastelType').value,pastelContact:$('pastelContact').value,tiltEffect:+$('penTilt').value/100,tiltX:e?.pointerType==='pen'?e.tiltX||0:0,eraserMode:$('eraserMode').value,tiltY:e?.pointerType==='pen'?e.tiltY||0:0,pressure:effectivePressure(e)};
+ // Ogni trasformazione deve RIPETERE il deposito del pigmento: nella 6.3.3
+ // veniva applicata la trasformazione ma non il disegno.
+ const stamp=(flipX,flipY)=>{
+  ctx.save();
+  ctx.translate(flipX?W:0,flipY?H:0);
+  ctx.scale(flipX?-1:1,flipY?-1:1);
+  strokeSegment(ctx,a,b,options);
+  ctx.restore();
+ };
+ stamp(false,false);
+ if(mirrorPaint&&['brush','pencil','charcoal','pastel','marker','air','eraser'].includes(tool)){
+  if(mirrorAxis==='vertical'||mirrorAxis==='both')stamp(true,false);
+  if(mirrorAxis==='horizontal'||mirrorAxis==='both')stamp(false,true);
+  if(mirrorAxis==='both')stamp(true,true);
+ }
+ ctx.restore();
+}
 function pigmentMove(a,b){
  const ctx=current().canvas.getContext('2d',{willReadFrequently:true});
  pigmentStroke(ctx,a,b,{kind:tool,size:+$('size').value,strength:+$('pigmentStrength').value/100,softness:+$('pigmentSoftness').value/100,color:$('color').value,selection,state:gesture?.smudgeState,grainPreserve:+$('smudgeGrain').value/100,pickupAmount:+$('smudgePickup').value/100});
