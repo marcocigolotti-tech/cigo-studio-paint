@@ -5,3 +5,5 @@ Basata sulla versione 6.3.7 collaudata. Sostituita l’emoji tavolozza con il lo
 Per pubblicare su GitHub Pages caricare tutti i file e le cartelle, incluso logo.png, nella radice del sito.
 
 Logo sostituito con immagine trasparente fornita nella conversazione; versione applicativa invariata 6.3.8.
+
+Correzione logo: rimosso sfondo bianco CSS e allineato al colore esatto dell’intestazione (#1d2939). Nessuna modifica al motore di disegno.
