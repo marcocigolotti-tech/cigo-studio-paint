@@ -1,5 +1,5 @@
-CIGO STUDIO Paint 6.3.4 — Simmetria verticale, orizzontale e su entrambi gli assi. Aprire index.html o pubblicare tutti i file su GitHub Pages.
+CIGO STUDIO Paint 6.3.5 — Simmetria radiale.
 
+Novità: 4, 6, 8 o 12 settori. Attivare Disegno simmetrico, scegliere Radiale nel menu Asse di simmetria e impostare il numero di settori. I tratti sono ruotati intorno al centro della tela. Sono conservate le modalità verticale, orizzontale ed entrambe.
 
-## Correzione 6.3.4
-Ripristinata la duplicazione effettiva dei tratti per simmetria verticale, orizzontale e doppia. Il problema della 6.3.3 era che la trasformazione veniva impostata senza ridisegnare il segmento.
+Aprire index.html o pubblicare tutti i file su GitHub Pages.
