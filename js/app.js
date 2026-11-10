@@ -65,7 +65,7 @@ for(const g of TOOL_GROUPS){
 document.addEventListener('pointerdown',e=>{if(!e.target.closest('#tools'))closeToolMenus()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeToolMenus()});
 setTool('brush');
-function pos(e){let r=overlay.getBoundingClientRect();return {x:Math.max(0,Math.min(W,(e.clientX-r.left)*W/r.width)),y:Math.max(0,Math.min(H,(e.clientY-r.top)*H/r.height))}}
+function pos(e){let r=overlay.getBoundingClientRect();const p={x:Math.max(0,Math.min(W,(e.clientX-r.left)*W/r.width)),y:Math.max(0,Math.min(H,(e.clientY-r.top)*H/r.height))};return window.CIGO_GUIDES?.snap(p,tool)||p}
 function rect(a,b){let x=Math.round(Math.min(a.x,b.x)),y=Math.round(Math.min(a.y,b.y));return{x,y,w:Math.round(Math.abs(a.x-b.x)),h:Math.round(Math.abs(a.y-b.y))}}
 function clipping(ctx){if(selection){ctx.beginPath();ctx.rect(selection.x,selection.y,selection.w,selection.h);ctx.clip()}}
 function effectivePressure(e){

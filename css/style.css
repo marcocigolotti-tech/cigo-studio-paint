@@ -79,3 +79,12 @@
 
 /* 6.4.1: prova guidata nella scheda contestuale */
 .context-practice{padding:9px 11px;border-left:3px solid #d4a357;border-radius:6px;background:rgba(212,163,87,.09);line-height:1.5}
+
+/* CIGO 6.4.2: righelli e guide, sovrapposti senza alterare i pixel dell'opera */
+.cigo-ruler{position:absolute;z-index:130;background:#243447;color:#dbe9f8;touch-action:none;user-select:none;overflow:hidden;border:1px solid #70849b;cursor:crosshair}
+.cigo-ruler.top{height:24px;top:-26px;left:0;width:100%}.cigo-ruler.left{width:24px;left:-26px;top:0;height:100%}
+.cigo-ruler canvas{display:block;width:100%;height:100%;position:static;touch-action:none}
+.cigo-guide-canvas{position:absolute!important;inset:0;width:100%;height:100%;z-index:110;pointer-events:none!important}
+.cigo-guide-controls{padding:9px;border:1px solid #526277;border-radius:8px;margin:10px 0;background:#253648;font-size:12px}
+.cigo-guide-controls label{display:flex;gap:6px;align-items:center;margin:7px 0}.cigo-guide-controls button{margin:3px 2px;font-size:12px}
+.cigo-guide-controls .hint{color:#c4d3e4;line-height:1.5}

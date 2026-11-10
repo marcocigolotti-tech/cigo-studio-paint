@@ -18,3 +18,6 @@ Nessuna modifica al motore di disegno.
 - Esercizio pratico specifico per ciascuno dei 20 strumenti nel pannello Consigli.
 - Descrizioni rapide passando il mouse sui pulsanti degli strumenti, accessibili anche da tastiera.
 - Nessuna modifica al motore grafico.
+
+## Novità 6.4.2
+Righelli in pixel e guide orizzontali/verticali trascinabili. Guide bloccabili, nascondibili e cancellabili; aggancio opzionale per le forme geometriche. Le guide sono sovrapposizioni di lavoro e non vengono esportate nelle immagini. Esercizi didattici congelati, nessun nuovo esercizio aggiunto.
