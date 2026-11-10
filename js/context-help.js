@@ -1,4 +1,4 @@
-// CIGO STUDIO Paint 6.4.0 - guida contestuale, non modifica il motore grafico.
+// CIGO STUDIO Paint 6.4.1 - guida contestuale, non modifica il motore grafico.
 (()=>{'use strict';
 const data={
 brush:['🖌 Pennello','Pennellata pittorica regolabile, adatta a contorni e campiture.','Scegli il colore e trascina sul foglio. Lavora su un livello dedicato per correggere facilmente.','Dimensione 15–35 px; opacità 70–100%; per bordi morbidi abbassa la durezza.'],
@@ -22,10 +22,33 @@ select:['▣ Seleziona','Delimita una zona rettangolare da trasformare.','Trasci
 move:['✥ Sposta livello','Sposta il contenuto del livello attivo.','Trascina sulla tela; non sposta automaticamente gli altri livelli.','Controlla il livello selezionato prima di trascinare.'],
 hand:['✋ Mano','Naviga la tela quando è ingrandita.','Trascina per spostare la vista senza alterare il disegno.','Usa Adatta per tornare a vedere tutto il foglio.']
 };
+const practice={
+brush:'Traccia tre linee cambiando soltanto la durezza: confronta i bordi.',
+pencil:'Disegna una sfera con la 2H per le luci e la 4B per le ombre.',
+marker:'Disegna una sagoma con un contorno continuo e riempi l’interno.',
+charcoal:'Crea una campitura scura, sfumala e recupera le luci con la gomma pane.',
+pastel:'Sovrapponi due colori prima in modalità Naturale e poi in Velatura.',
+air:'Costruisci una sfumatura ripassando tre volte sulla stessa area.',
+smudge:'Affianca due colori sullo stesso livello e sfuma soltanto il confine.',
+mixer:'Mescola due macchie dello stesso livello usando un colore intermedio.',
+eraser:'Su una campitura scura confronta gomma classica, morbida e pane.',
+line:'Traccia una linea diagonale e poi una con Maiusc premuto.',
+arrow:'Crea tre frecce per spiegare un procedimento.',
+rect:'Disegna un rettangolo vuoto e uno pieno; prova anche Maiusc.',
+roundrect:'Realizza un cartellino con angoli arrotondati.',
+ellipse:'Disegna un ovale e poi un cerchio usando Maiusc.',
+fill:'Crea una forma chiusa e riempila con un colore contrastante.',
+pick:'Preleva il colore di una campitura e riutilizzalo su un altro livello.',
+text:'Inserisci un titolo e modificalo con doppio clic.',
+select:'Seleziona una porzione del disegno e prova a copiarla.',
+move:'Crea un livello nuovo, disegna una forma e spostala.',
+hand:'Ingrandisci la tela, sposta la vista e usa Adatta per tornare indietro.'
+};
 const $=id=>document.getElementById(id),panel=$('contextHelp'),toggle=$('contextHelpToggle'),body=$('contextHelpBody');if(!panel||!toggle||!body)return;
 const key='cigo-context-help-open';let open=false;try{open=localStorage.getItem(key)==='1'}catch(_){}
 function setOpen(v){open=!!v;body.hidden=!open;toggle.setAttribute('aria-expanded',String(open));toggle.querySelector('span').textContent=open?'▴':'▾';try{localStorage.setItem(key,open?'1':'0')}catch(_){}}
-function refresh(){const active=document.querySelector('#tools [data-tool].active');const id=active?.dataset.tool||'brush';const item=data[id]||data.brush; $('contextHelpName').textContent=item[0];$('contextHelpDescription').textContent=item[1];$('contextHelpUsage').textContent=item[2];$('contextHelpSettings').textContent=item[3]}
+function refresh(){const active=document.querySelector('#tools [data-tool].active');const id=active?.dataset.tool||'brush';const item=data[id]||data.brush; $('contextHelpName').textContent=item[0];$('contextHelpDescription').textContent=item[1];$('contextHelpUsage').textContent=item[2];$('contextHelpSettings').textContent=item[3];$('contextHelpPractice').textContent=practice[id]||practice.brush;updateToolHints()}
+function updateToolHints(){document.querySelectorAll('#tools [data-tool]').forEach(btn=>{const item=data[btn.dataset.tool];if(!item)return;btn.title=item[0].replace(/^[^\p{L}\p{N}]+/u,'')+' — '+item[1];btn.setAttribute('aria-label',item[0]+' — '+item[1])})}
 toggle.addEventListener('click',()=>setOpen(!open));$('contextHelpManual').addEventListener('click',()=>window.openCigoGuide?.());
 // Osserva la classe active: funziona anche per scorciatoie e preset, non solo per clic.
 const tools=$('tools');const observer=new MutationObserver(records=>{if(records.some(r=>r.type==='attributes'&&r.attributeName==='class'))refresh()});observer.observe(tools,{subtree:true,attributes:true,attributeFilter:['class']});

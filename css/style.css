@@ -76,3 +76,6 @@
 
 /* 6.4.0: guida contestuale, compatta e accessibile */
 .context-help{margin:10px 0 14px;border:1px solid #65778c;border-radius:9px;overflow:hidden;background:#26364b;color:#f5f8ff}.context-help-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;text-align:left;border:0;border-radius:0;background:#30465f;color:#f7d58a;padding:10px 9px;font-weight:700;cursor:pointer}.context-help-toggle:hover,.context-help-toggle:focus-visible{background:#405c79}.context-help-body{padding:10px 11px;font-size:12px;line-height:1.5}.context-help-body[hidden]{display:none!important}.context-help-body h3{margin:0 0 8px;font-size:14px;color:#ffe3a0}.context-help-body p{margin:8px 0}.context-help-body strong{color:#ffe3a0}.context-help-body button{font-size:12px;max-width:100%;white-space:normal}.school .context-help{display:block}
+
+/* 6.4.1: prova guidata nella scheda contestuale */
+.context-practice{padding:9px 11px;border-left:3px solid #d4a357;border-radius:6px;background:rgba(212,163,87,.09);line-height:1.5}

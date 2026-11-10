@@ -12,3 +12,9 @@ Nuovo pannello «💡 Consigli per lo strumento» nella barra sinistra, richiudi
 Mostra automaticamente descrizione, utilizzo e impostazioni consigliate per tutti i 20 strumenti, anche quando si cambia strumento tramite scorciatoie o preset.
 Il pannello ricorda se era aperto nel browser e offre il collegamento alla guida completa.
 Nessuna modifica al motore di disegno.
+
+
+## Novità 6.4.1
+- Esercizio pratico specifico per ciascuno dei 20 strumenti nel pannello Consigli.
+- Descrizioni rapide passando il mouse sui pulsanti degli strumenti, accessibili anche da tastiera.
+- Nessuna modifica al motore grafico.
