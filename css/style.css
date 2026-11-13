@@ -88,3 +88,6 @@
 .cigo-guide-controls{padding:9px;border:1px solid #526277;border-radius:8px;margin:10px 0;background:#253648;font-size:12px}
 .cigo-guide-controls label{display:flex;gap:6px;align-items:center;margin:7px 0}.cigo-guide-controls button{margin:3px 2px;font-size:12px}
 .cigo-guide-controls .hint{color:#c4d3e4;line-height:1.5}
+
+/* 6.4.3 — editor numerico guide */
+.cigo-guide-editor{border-top:1px solid #61748a;margin-top:10px;padding-top:10px}.cigo-guide-add{display:flex;gap:5px;flex-wrap:wrap;margin:7px 0}.cigo-guide-add select,.cigo-guide-add input,.cigo-guide-row input{min-width:0;background:#f7fafc;color:#172438;border:1px solid #8799aa;border-radius:5px;padding:5px}.cigo-guide-add input{width:80px}.cigo-guide-list{max-height:190px;overflow:auto}.cigo-guide-row{display:grid;grid-template-columns:minmax(0,1fr) 85px 32px;align-items:center;gap:5px;margin:5px 0}.cigo-guide-row label{margin:0!important}.cigo-guide-row button{padding:5px;margin:0}.cigo-guide-editor small{display:block;color:#c4d3e4;margin-top:7px;line-height:1.4}

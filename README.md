@@ -21,3 +21,11 @@ Nessuna modifica al motore di disegno.
 
 ## Novità 6.4.2
 Righelli in pixel e guide orizzontali/verticali trascinabili. Guide bloccabili, nascondibili e cancellabili; aggancio opzionale per le forme geometriche. Le guide sono sovrapposizioni di lavoro e non vengono esportate nelle immagini. Esercizi didattici congelati, nessun nuovo esercizio aggiunto.
+
+
+## Novità 6.4.3
+- Inserimento guide a coordinate numeriche precise (pixel).
+- Elenco con modifica ed eliminazione individuale.
+- Memorizzazione locale delle guide nello stesso browser (non incluse nel progetto .cigopaint).
+- Blocco delle guide esteso all’editor; conferma prima di cancellarle tutte.
+- Esercizi didattici nuovi congelati.
