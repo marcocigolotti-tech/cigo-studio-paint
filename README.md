@@ -29,3 +29,7 @@ Righelli in pixel e guide orizzontali/verticali trascinabili. Guide bloccabili, 
 - Memorizzazione locale delle guide nello stesso browser (non incluse nel progetto .cigopaint).
 - Blocco delle guide esteso all’editor; conferma prima di cancellarle tutte.
 - Esercizi didattici nuovi congelati.
+
+
+## Miglioramento guide nei progetti (6.4.4)
+Le guide e le relative opzioni (visibilità, aggancio, blocco) vengono salvate nel file `.cigopaint` e ripristinate all'apertura. I progetti precedenti, privi di `guideState`, restano compatibili. Le guide continuano a non essere esportate nei PNG/JPG. Il numero versione visibile rimane invariato, come richiesto.
